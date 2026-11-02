@@ -1,6 +1,6 @@
 Dreamy Analog Pads is a note-only MIDI study pack
 
-Eight slow pad fields, held common tones, a separate inner line, and a simple-synth preview that is not a master
+Eight slow pad fields, held common tones, a separate inner line, and a simple-synth preview
 
 DRAFT. The GitHub repository is https://github.com/mizcausevic-dev/dreamy-analog-pads and it is public. The catalog page is https://mizcausevic-dev.github.io/dreamy-analog-pads/ .
 Tags: midi, composition, harmony, music-production, study-pack
@@ -11,8 +11,8 @@ Pad notes stay between MIDI 48 and 81. The polyphony cap is 6, which is inside t
 Analog-like describes the intended playback: a slow attack and a soft tone. It is not a MIDI property. Release tails are not in the MIDI. Each note ends at note-off. A synth may ring after that. The ring is not in the file.
 No program changes are encoded. A conventional GM player will normally use its default piano program for pitched channels unless configured otherwise; compatible GM channel 10 percussion is treated separately. Player behavior may vary.
 The preview synth uses a slow sine, a quiet detuned partner, and a softer triangle for the pad, and a quiet sine for the inner motion. It stops at the written note-off. That mapping is documented. It is not a program change.
-The primary preview is study 01, Dusk Common, variation A, for all 8 bars: the pad file and inner motion A together. At the encoded tempo that container is about 26.7 seconds. The other studies are in the MIDI and are not in that audio file. preview, not a master. The film takes its audio from that preview file and shows the words preview, not master on the picture and in the WebVTT captions.
-No human listening audition was performed for this build. The validator reopened the MIDI bytes and compared them with the canonical score. That is a structural check. The sample peak written beside the preview is the peak of the integer mix. It is not a loudness figure and it is not a true-peak reading. Nothing in this build is claimed as a master.
+The primary preview is study 01, Dusk Common, variation A, all 8 bars at 72 BPM: the pad file and inner motion A together. The encoded preview is 26.697 seconds. The other studies are in the MIDI and are not in that audio file. preview, not a master. The film takes its audio from that preview file and shows the words preview, not master on the picture and in the WebVTT captions.
+No human listening audition was performed for this build. The validator reopened the MIDI bytes and compared them with the canonical score. That is a structural check. The sample peak written beside the preview is the peak of the integer mix. It is not a loudness figure.
 The stills are procedural illustrations of a dusk field with long horizontal bands. They are not photographs of a session or of performers.
 When a public URL exists, use either the combined arrangement or the separate parts. Use either the combined arrangement or the separate parts. Do not stack the part files on top of the combined file.
 Call to action: the MIDI, the matched report, and the preview belong together. Do not publish this draft to Medium, Instagram, or X from the draft files alone.

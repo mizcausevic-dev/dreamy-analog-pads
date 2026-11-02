@@ -1,6 +1,6 @@
 # Dreamy Analog Pads is a note-only MIDI study pack
 
-Eight slow pad fields, held common tones, a separate inner line, and a simple-synth preview that is not a master
+Eight slow pad fields, held common tones, a separate inner line, and a simple-synth preview
 
 DRAFT. The GitHub repository is https://github.com/mizcausevic-dev/dreamy-analog-pads and it is public. The catalog page is https://mizcausevic-dev.github.io/dreamy-analog-pads/ .
 
@@ -20,9 +20,9 @@ No program changes are encoded. A conventional GM player will normally use its d
 
 The preview synth uses a slow sine, a quiet detuned partner, and a softer triangle for the pad, and a quiet sine for the inner motion. It stops at the written note-off. That mapping is documented. It is not a program change.
 
-The primary preview is study 01, Dusk Common, variation A, for all 8 bars: the pad file and inner motion A together. At the encoded tempo that container is about 26.7 seconds. The other studies are in the MIDI and are not in that audio file. preview, not a master. The film takes its audio from that preview file and shows the words preview, not master on the picture and in the WebVTT captions.
+The primary preview is study 01, Dusk Common, variation A, all 8 bars at 72 BPM: the pad file and inner motion A together. The encoded preview is 26.697 seconds. The other studies are in the MIDI and are not in that audio file. preview, not a master. The film takes its audio from that preview file and shows the words preview, not master on the picture and in the WebVTT captions.
 
-No human listening audition was performed for this build. The validator reopened the MIDI bytes and compared them with the canonical score. That is a structural check. The sample peak written beside the preview is the peak of the integer mix. It is not a loudness figure and it is not a true-peak reading. Nothing in this build is claimed as a master.
+No human listening audition was performed for this build. The validator reopened the MIDI bytes and compared them with the canonical score. That is a structural check. The sample peak written beside the preview is the peak of the integer mix. It is not a loudness figure.
 
 The stills are procedural illustrations of a dusk field with long horizontal bands. They are not photographs of a session or of performers.
 

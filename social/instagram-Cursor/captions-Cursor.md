@@ -3,7 +3,7 @@ This file is a draft. It has not been posted.
 
 Caption
 
-Dreamy Analog Pads. Eight 8-bar studies of slow pad fields, with held common tones and open space. Two pad variations each, note-only MIDI between 60 and 104 BPM. Inner motion is a separate reference file. The audio preview is a simple-synth render of study 01, not a master. No listening audition was performed for this build.
+Dreamy Analog Pads. Study 01, Dusk Common, variation A, is 8 bars at 72 BPM. The preview is 26.697 seconds. preview, not a master. The film shows the words preview, not master. Inner motion is a separate reference. No human listening audition was performed for this build.
 
 Hashtags
 
