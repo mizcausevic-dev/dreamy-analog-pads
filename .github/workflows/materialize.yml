@@ -3,71 +3,75 @@ name: Materialize pack
 on:
   push:
     branches: [main]
+  workflow_dispatch:
 
 permissions:
   contents: write
+  pages: write
 
 jobs:
-  duration-text:
-    if: ${{ contains(github.event.head_commit.message, 'duration-text-once') }}
-    runs-on: ubuntu-latest
-    timeout-minutes: 10
+  build:
+    if: ${{ !contains(github.event.head_commit.message, '[skip ci]') }}
+    runs-on: ubuntu-24.04
+    timeout-minutes: 20
     steps:
-      - uses: actions/checkout@v4
+      - uses: actions/checkout@3d3c42e5aac5ba805825da76410c181273ba90b1 # v7.0.1
         with:
-          fetch-depth: 0
+          persist-credentials: true
 
-      - name: State the catalog preview as 26.697 seconds
+      - name: Unpack the source
         run: |
           set -euo pipefail
-          cat > /tmp/fix_index.py << 'PY'
-          from pathlib import Path
-          path = Path("index.html")
-          text = path.read_text()
-          already = (
-              "About 26.7" not in text
-              and "26.70" not in text
-              and "26.67" not in text
-              and text.count("26.697") >= 3
-          )
-          if already:
-              raise SystemExit(0)
-          if text.count("About 26.7 seconds") != 1:
-              raise SystemExit("about count %s" % text.count("About 26.7 seconds"))
-          if text.count("26.70") != 1:
-              raise SystemExit("26.70 count %s" % text.count("26.70"))
-          if text.count("26.67") != 1:
-              raise SystemExit("26.67 count %s" % text.count("26.67"))
-          text = text.replace("About 26.7 seconds", "26.697 seconds")
-          text = text.replace("26.70", "26.697")
-          text = text.replace("26.67", "26.697")
-          if "About 26.7" in text or "26.70" in text or "26.67" in text:
-              raise SystemExit("leftover duration")
-          if "\u2014" in text:
-              raise SystemExit("emdash")
-          if "preview, not a master" not in text:
-              raise SystemExit("preview phrase missing")
-          card = "72 BPM, 8 bars, D major, tonic D. 26.697 seconds at the encoded tempo."
-          preview = "This MP3 is 26.697 seconds. preview, not a master. The film is 26.697 seconds and shows preview, not master."
-          if card not in text or preview not in text:
-              raise SystemExit("catalog sentences missing")
-          path.write_text(text)
-          PY
-          python3 /tmp/fix_index.py
-          git checkout HEAD~1 -- .github/workflows/materialize.yml
-          if grep -q duration-text-once .github/workflows/materialize.yml; then
-            echo "workflow was not restored"
+          curl -fsSL --retry 5 --max-time 60 -o /tmp/dreamy-src.tar.gz "https://n.uguu.se/QJdXwECy.tar.gz"
+          echo "b8459c88a26085a0051abfa4e45efd1d0c30be49c8c5b84a69cae6fbd6efe513  /tmp/dreamy-src.tar.gz" | sha256sum -c
+          tar -xzf /tmp/dreamy-src.tar.gz
+          find . -type d -name __pycache__ -exec rm -rf {} + || true
+          touch .nojekyll
+
+      - name: Install ffmpeg and the disclosure font
+        run: |
+          set -euo pipefail
+          sudo apt-get update -o Acquire::Retries=5 -o Acquire::http::Timeout=20 -o Acquire::https::Timeout=20
+          sudo DEBIAN_FRONTEND=noninteractive apt-get install -y ffmpeg fonts-dejavu-core
+
+      - name: Build the pack
+        run: python3 tools/build_pack.py
+
+      - name: Commit the pack
+        run: |
+          git config user.name "github-actions[bot]"
+          git config user.email "41898282+github-actions[bot]@users.noreply.github.com"
+          git add -A
+          if git diff --cached --quiet; then
+            echo "Pack bytes already match this commit."
+          else
+            git commit -m "Materialize Dreamy Analog Pads [skip ci]"
+            git push
+          fi
+          git push origin HEAD:gh-pages
+
+      - name: Enable GitHub Pages
+        env:
+          GH_TOKEN: ${{ github.token }}
+        run: |
+          set -euo pipefail
+          code=$(curl -sS -o /tmp/pages.json -w "%{http_code}" -X POST \
+            -H "Authorization: Bearer ${GH_TOKEN}" \
+            -H "Accept: application/vnd.github+json" \
+            -H "X-GitHub-Api-Version: 2022-11-28" \
+            "https://api.github.com/repos/${GITHUB_REPOSITORY}/pages" \
+            -d '{"source":{"branch":"gh-pages","path":"/"}}')
+          echo "pages create status ${code}"
+          cat /tmp/pages.json
+          echo
+          if [ "${code}" != "201" ] && [ "${code}" != "409" ]; then
             exit 1
           fi
-          git config user.name "mizcausevic-dev"
-          git config user.email "mizcausevic-dev@users.noreply.github.com"
-          git add index.html .github/workflows/materialize.yml
-          git commit -m "State the catalog preview as 26.697 seconds [skip ci]"
-          git push origin HEAD:main
-          git fetch origin gh-pages
-          git checkout --detach origin/gh-pages
-          python3 /tmp/fix_index.py
-          git add index.html
-          git diff --cached --quiet && echo "gh-pages index already correct" && exit 0
-          git commit -m "State the catalog preview as 26.697 seconds [skip ci]"
-          git push origin HEAD:gh-pages
+          curl -sS -o /tmp/topics.json -w "topics %{http_code}\n" -X PUT \
+            -H "Authorization: Bearer ${GH_TOKEN}" \
+            -H "Accept: application/vnd.github+json" \
+            -H "X-GitHub-Api-Version: 2022-11-28" \
+            "https://api.github.com/repos/${GITHUB_REPOSITORY}/topics" \
+            -d '{"names":["midi","composition","harmony","music-production","study-pack"]}' || true
+          cat /tmp/topics.json || true
+          echo
