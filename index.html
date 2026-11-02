@@ -1,0 +1,516 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>Dreamy Analog Pads</title>
+  <link rel="icon" href="art/mark.svg" type="image/svg+xml">
+  <style>
+    :root {
+      --bg: #2a2233;
+      --paper: #f7ecdf;
+      --ink: #2e2433;
+      --peach: #e2a27d;
+      --amber: #e6c48a;
+      --rose: #c9848f;
+      --dusk: #7f8eae;
+      --sage: #8eaa96;
+      --muted: #d9cdc4;
+      --line: rgba(247, 236, 223, .18);
+    }
+    * { box-sizing: border-box; }
+    body {
+      margin: 0; background: var(--bg); color: var(--paper);
+      font-family: Georgia, "Iowan Old Style", Palatino, serif;
+      line-height: 1.45; padding-bottom: 92px;
+    }
+    a { color: var(--peach); }
+    a:focus-visible, button:focus-visible { outline: 2px solid var(--amber); outline-offset: 3px; }
+    button, .meta, .note, .transport, .hold, .motion-list { font-family: ui-monospace, Menlo, Consolas, monospace; }
+    img, audio, video { display: block; max-width: 100%; height: auto; }
+    .top {
+      position: sticky; top: 0; z-index: 6;
+      display: flex; justify-content: space-between; gap: 12px; align-items: center;
+      padding: 12px 20px; background: rgba(42, 34, 51, .94); border-bottom: 1px solid var(--line);
+    }
+    .brand { letter-spacing: .14em; text-transform: uppercase; font-size: .72rem; color: var(--paper); text-decoration: none; }
+    .top nav { display: flex; gap: 14px; font-size: .78rem; }
+    main { width: min(1180px, calc(100% - 2rem)); margin: 0 auto; }
+    .stage {
+      display: grid; grid-template-columns: minmax(0, .82fr) minmax(0, 1.18fr);
+      gap: 28px; align-items: start; padding: 26px 0 8px;
+    }
+    .stage > div { min-width: 0; }
+    h1 { font-weight: 500; font-size: clamp(2.4rem, 5vw, 4.4rem); line-height: .92; margin: 8px 0 10px; }
+    h2 { font-weight: 500; margin-top: 36px; }
+    .kicker { letter-spacing: .16em; text-transform: uppercase; color: var(--peach); font-size: .74rem; margin: 0; }
+    .meta, .note { color: var(--muted); font-size: .82rem; }
+    .hero img { border-radius: 12px; background: #000; }
+    .rail, .phrases, .switch { display: flex; gap: 8px; flex-wrap: wrap; margin: 8px 0; }
+    .rail { overflow-x: auto; flex-wrap: nowrap; max-width: 100%; padding-bottom: 4px; }
+    button {
+      border: 1px solid var(--line); background: transparent; color: var(--paper);
+      border-radius: 999px; padding: 7px 11px; cursor: pointer;
+    }
+    button[aria-pressed="true"] { background: var(--peach); color: var(--ink); border-color: var(--peach); }
+    .scroller { overflow-x: auto; max-width: 100%; border-radius: 16px; background: #1b1624; }
+    .names { position: relative; height: 28px; }
+    .change {
+      position: absolute; top: 4px; font-size: 12px; color: var(--amber); white-space: nowrap;
+    }
+    .field { position: relative; min-height: 180px; }
+    .seam {
+      position: absolute; top: 0; bottom: 0; width: 0; border-left: 1px solid rgba(247, 236, 223, .45);
+    }
+    .hold {
+      position: absolute; border-radius: 999px; background: rgba(247, 236, 223, .9);
+      color: var(--ink); font-size: 12px; line-height: 28px; padding: 0 8px;
+      overflow: hidden; white-space: nowrap;
+    }
+    .hold.common { background: var(--amber); box-shadow: inset 0 0 0 2px #2e2433; }
+    .playhead {
+      position: absolute; top: 0; bottom: 0; width: 2px; background: var(--peach); pointer-events: none;
+    }
+    .legend { display: flex; gap: 14px; flex-wrap: wrap; font-size: .78rem; color: var(--muted); }
+    .swatch { display: inline-block; width: 12px; height: 12px; border-radius: 99px; margin-right: 4px; vertical-align: -1px; }
+    #motion {
+      margin-top: 22px; padding: 16px 18px; border: 1px solid var(--line); border-radius: 16px;
+      background: rgba(142, 170, 150, .08);
+    }
+    .motion-list { margin: 8px 0 0; padding-left: 18px; color: var(--paper); }
+    .motion-list li { margin: 4px 0; }
+    .cards, .map { display: grid; grid-template-columns: 1fr 1fr; gap: 14px; }
+    .cards article, .map section {
+      border: 1px solid var(--line); border-radius: 14px; padding: 12px 14px;
+    }
+    .cards h3, .map h3 { margin: 0 0 6px; font-weight: 500; }
+    .table-scroll { overflow-x: auto; max-width: 100%; }
+    table { width: 100%; border-collapse: collapse; font-size: .8rem; }
+    th, td { text-align: left; padding: 7px 6px; border-bottom: 1px solid var(--line); }
+    .flow { display: flex; flex-wrap: wrap; gap: 8px; align-items: center; }
+    .flow span { border: 1px solid var(--line); border-radius: 999px; padding: 4px 8px; font-size: .78rem; }
+    audio, video { margin: 10px 0 16px; background: #000; }
+    .transport {
+      position: fixed; left: 0; right: 0; bottom: 0; z-index: 7;
+      display: flex; gap: 10px; flex-wrap: wrap; align-items: center;
+      padding: 10px 16px; background: #1b1624; border-top: 1px solid var(--line);
+    }
+    @media (max-width: 860px) {
+      .stage, .cards, .map { grid-template-columns: 1fr; }
+      .top nav { display: none; }
+    }
+  </style>
+</head>
+<body>
+  <header class="top">
+    <a class="brand" href="index.html">Dreamy Analog Pads</a>
+    <nav>
+      <a href="#field-wrap">Pad field</a>
+      <a href="#motion">Inner motion</a>
+      <a href="#studies">Studies</a>
+      <a href="#files">Files</a>
+      <a href="#reading">Preview</a>
+      <a href="media.html">Stills</a>
+      <a href="midi/arrangement.mid">Arrangement</a>
+    </nav>
+  </header>
+  <main>
+    <section class="stage">
+      <div>
+        <p class="kicker">Eight 8-bar studies · held tones · open space</p>
+        <h1 id="title">Dusk Common</h1>
+        <p id="identity"></p>
+        <p class="meta" id="facts"></p>
+        <p id="rhythm"></p>
+        <p id="common-copy"></p>
+        <p id="voicing"></p>
+        <p id="layering"></p>
+        <p id="accent-copy"></p>
+        <p class="note" id="limits"></p>
+        <p class="note" id="departures"></p>
+      </div>
+      <div id="field-wrap">
+        <figure class="hero">
+          <img src="art/hero.jpg" width="1280" height="720" alt="Illustration of soft horizontal bands in a dusk sky, like held pads, with a few small marks above them. Not a photograph of a studio or of performers.">
+          <figcaption class="note">Illustration of a dusk field. Not a photograph of a session or of performers.</figcaption>
+        </figure>
+        <div class="rail" id="rail"></div>
+        <div class="switch">
+          <button type="button" id="var-a" aria-pressed="true">Variation A</button>
+          <button type="button" id="var-b" aria-pressed="false">Variation B</button>
+        </div>
+        <div class="phrases" id="phrases"></div>
+        <div class="scroller" id="scroller">
+          <div class="names" id="names"></div>
+          <div class="field" id="field"></div>
+        </div>
+        <p class="legend">
+          <span><i class="swatch" style="background:#f7ecdf"></i>pad note from the MIDI</span>
+          <span><i class="swatch" style="background:#e6c48a"></i>common tone, still sounding at a chord change</span>
+        </p>
+        <p id="common"></p>
+        <p class="note" id="status">Reading the MIDI.</p>
+      </div>
+    </section>
+    <section id="motion">
+      <p class="kicker">Reference part</p>
+      <h2>Inner motion</h2>
+      <p>This list is read from the inner-motion MIDI file. It is not drawn on the pad field and it is not part of the core count. Pair motion A with pad A, or motion B with pad B.</p>
+      <ol class="motion-list" id="motion-list"></ol>
+    </section>
+    <p>Pad fields use MIDI 48 to 81. The polyphony cap is 6. These studies sound two to four notes at once. Inner motion is monophonic, MIDI 64 to 84, and is a reference part, not part of the core count. C4 is 60.</p>
+    <p>The pad polyphony cap is 6, inside the 4 to 6 range used for these pads. These studies sound two to four notes at once. Inner motion is monophonic. Same-pitch overlap inside a part is illegal.</p>
+    <p>Analog-like describes the intended playback, a slow attack and a soft tone. It is not a MIDI property.</p>
+    <p>Release tails are not in the MIDI. Each note ends at note-off. A synth may ring after that. The ring is not in the file.</p>
+    <p>Eight bars for every study. Sixteen and thirty-two bar studies were allowed and were not used, because 16 bars at 60 BPM last 64 seconds and 32 bars at 60 BPM last 128 seconds.</p>
+    <h2>File contract</h2>
+    <div class="flow">
+      <span>Canonical score</span><span>MIDI</span><span>Reopened validation</span><span>MP3</span><span>Film</span>
+    </div>
+    <p class="note">Stills lead to the social drafts. The catalog leads to this page.</p>
+    <h2 id="studies">Studies</h2>
+    <div class="cards"><article><h3>s01 Dusk Common</h3><p>72 BPM, 8 bars, D major, tonic D. About 26.7 seconds at the encoded tempo.</p><p>Four bars of D, two of G, two of D.</p><p>A3 is the held tone in variation A. Variation B holds D4 into G, then B3 and D3 into the return.</p><p>Play pad A with inner motion A, or pad B with inner motion B. They are alternatives. Release tails are not in the MIDI. Each note ends at note-off. A synth may ring after that. The ring is not in the file.</p></article><article><h3>s02 Open Fourths</h3><p>64 BPM, 8 bars, A natural minor, tonic A. About 30.0 seconds at the encoded tempo.</p><p>Three bars of an A fourth, three of F, two of A.</p><p>Variation A holds A3 into F. Variation B holds D3 and A3 into F, then C4 into the return.</p><p>Play pad A with inner motion A, or pad B with inner motion B. They are alternatives. Release tails are not in the MIDI. Each note ends at note-off. A synth may ring after that. The ring is not in the file.</p></article><article><h3>s03 Suspended Hold</h3><p>80 BPM, 8 bars, F Lydian, tonic F. About 24.0 seconds at the encoded tempo.</p><p>Four bars of Fsus2, two of C, two of F.</p><p>Variation A holds F3 and C4 into C. Variation B holds A3 and C4 into C, then E4, G3, and D4 into the return.</p><p>Play pad A with inner motion A, or pad B with inner motion B. They are alternatives. Release tails are not in the MIDI. Each note ends at note-off. A synth may ring after that. The ring is not in the file.</p></article><article><h3>s04 Low Bloom</h3><p>60 BPM, 8 bars, C Dorian, tonic C. About 32.0 seconds at the encoded tempo.</p><p>Four bars of Cm, two of Bb, two of Cm.</p><p>Variation A holds C3 into Bb. Variation B holds G3 and Bb3 into Bb, then F3 into the return.</p><p>Play pad A with inner motion A, or pad B with inner motion B. They are alternatives. The E3 is one half note. It does not retune the study. Release tails are not in the MIDI. Each note ends at note-off. A synth may ring after that. The ring is not in the file.</p></article><article><h3>s05 High Window</h3><p>96 BPM, 8 bars, E Mixolydian, tonic E. About 20.0 seconds at the encoded tempo.</p><p>Two bars of E, four of A, two of E.</p><p>Variation A holds E3 into A. Variation B holds E3, G#4, and B4 into A, then D5 into the return.</p><p>Play pad A with inner motion A, or pad B with inner motion B. They are alternatives. Do not fill the gap with a chord tone from another study. Release tails are not in the MIDI. Each note ends at note-off. A synth may ring after that. The ring is not in the file.</p></article><article><h3>s06 Pedal Drift</h3><p>68 BPM, 8 bars, G natural minor, tonic G. About 28.2 seconds at the encoded tempo.</p><p>Two bars each of Gm, Cm, Eb, and Gm.</p><p>Variation A holds G3 across every change. Variation B holds D3 across the first two changes, then G4 and Eb4.</p><p>Play pad A with inner motion A, or pad B with inner motion B. They are alternatives. Release tails are not in the MIDI. Each note ends at note-off. A synth may ring after that. The ring is not in the file.</p></article><article><h3>s07 Two-Note Space</h3><p>84 BPM, 8 bars, Bb major, tonic Bb. About 22.9 seconds at the encoded tempo.</p><p>Three bars of Bb, three of Eb, two of F.</p><p>Variation A holds Bb3 into Eb. Variation B holds F3 and Bb3 into Eb.</p><p>Play pad A with inner motion A, or pad B with inner motion B. They are alternatives. The Gb4 is one half note. Release tails are not in the MIDI. Each note ends at note-off. A synth may ring after that. The ring is not in the file.</p></article><article><h3>s08 Cadence Breath</h3><p>104 BPM, 8 bars, A major, tonic A. About 18.5 seconds at the encoded tempo.</p><p>Three bars of D, four of A, then one silent bar.</p><p>Variation A holds A3 into A. Variation B holds E4 into A. Nothing crosses into the silent bar.</p><p>Play pad A with inner motion A, or pad B with inner motion B. They are alternatives. Do not fill bar 8. Release tails are not in the MIDI. Each note ends at note-off. A synth may ring after that. The ring is not in the file.</p></article></div>
+    <h2>Set map</h2>
+    <div class="map"><section><h3>s01 Dusk Common</h3><ul><li><a href="midi/s01-dusk-common/pad-a.mid">s01.pad.a</a> pad-field a (core)</li><li><a href="midi/s01-dusk-common/pad-b.mid">s01.pad.b</a> pad-field b (core)</li><li><a href="midi/s01-dusk-common/motion-a.mid">s01.motion.a</a> inner-motion a (reference)</li><li><a href="midi/s01-dusk-common/motion-b.mid">s01.motion.b</a> inner-motion b (reference)</li></ul></section><section><h3>s02 Open Fourths</h3><ul><li><a href="midi/s02-open-fourths/pad-a.mid">s02.pad.a</a> pad-field a (core)</li><li><a href="midi/s02-open-fourths/pad-b.mid">s02.pad.b</a> pad-field b (core)</li><li><a href="midi/s02-open-fourths/motion-a.mid">s02.motion.a</a> inner-motion a (reference)</li><li><a href="midi/s02-open-fourths/motion-b.mid">s02.motion.b</a> inner-motion b (reference)</li></ul></section><section><h3>s03 Suspended Hold</h3><ul><li><a href="midi/s03-suspended-hold/pad-a.mid">s03.pad.a</a> pad-field a (core)</li><li><a href="midi/s03-suspended-hold/pad-b.mid">s03.pad.b</a> pad-field b (core)</li><li><a href="midi/s03-suspended-hold/motion-a.mid">s03.motion.a</a> inner-motion a (reference)</li><li><a href="midi/s03-suspended-hold/motion-b.mid">s03.motion.b</a> inner-motion b (reference)</li></ul></section><section><h3>s04 Low Bloom</h3><ul><li><a href="midi/s04-low-bloom/pad-a.mid">s04.pad.a</a> pad-field a (core)</li><li><a href="midi/s04-low-bloom/pad-b.mid">s04.pad.b</a> pad-field b (core)</li><li><a href="midi/s04-low-bloom/motion-a.mid">s04.motion.a</a> inner-motion a (reference)</li><li><a href="midi/s04-low-bloom/motion-b.mid">s04.motion.b</a> inner-motion b (reference)</li></ul></section><section><h3>s05 High Window</h3><ul><li><a href="midi/s05-high-window/pad-a.mid">s05.pad.a</a> pad-field a (core)</li><li><a href="midi/s05-high-window/pad-b.mid">s05.pad.b</a> pad-field b (core)</li><li><a href="midi/s05-high-window/motion-a.mid">s05.motion.a</a> inner-motion a (reference)</li><li><a href="midi/s05-high-window/motion-b.mid">s05.motion.b</a> inner-motion b (reference)</li></ul></section><section><h3>s06 Pedal Drift</h3><ul><li><a href="midi/s06-pedal-drift/pad-a.mid">s06.pad.a</a> pad-field a (core)</li><li><a href="midi/s06-pedal-drift/pad-b.mid">s06.pad.b</a> pad-field b (core)</li><li><a href="midi/s06-pedal-drift/motion-a.mid">s06.motion.a</a> inner-motion a (reference)</li><li><a href="midi/s06-pedal-drift/motion-b.mid">s06.motion.b</a> inner-motion b (reference)</li></ul></section><section><h3>s07 Two-Note Space</h3><ul><li><a href="midi/s07-two-note-space/pad-a.mid">s07.pad.a</a> pad-field a (core)</li><li><a href="midi/s07-two-note-space/pad-b.mid">s07.pad.b</a> pad-field b (core)</li><li><a href="midi/s07-two-note-space/motion-a.mid">s07.motion.a</a> inner-motion a (reference)</li><li><a href="midi/s07-two-note-space/motion-b.mid">s07.motion.b</a> inner-motion b (reference)</li></ul></section><section><h3>s08 Cadence Breath</h3><ul><li><a href="midi/s08-cadence-breath/pad-a.mid">s08.pad.a</a> pad-field a (core)</li><li><a href="midi/s08-cadence-breath/pad-b.mid">s08.pad.b</a> pad-field b (core)</li><li><a href="midi/s08-cadence-breath/motion-a.mid">s08.motion.a</a> inner-motion a (reference)</li><li><a href="midi/s08-cadence-breath/motion-b.mid">s08.motion.b</a> inner-motion b (reference)</li></ul></section></div>
+    <p>Use either the combined arrangement or the separate parts. Do not stack the part files on top of the combined file.</p>
+    <h2 id="files">Files</h2>
+    <p class="meta">Validation PASS. Core pad files 16. Inner-motion references 16. <a href="midi/validation-Cursor.json">validation report</a> · <a href="catalog/catalog-Cursor.json">catalog</a> · <a href="score/canonical-score-Cursor.json">canonical score</a></p>
+    <div class="table-scroll">
+      <table>
+        <thead><tr><th>Part</th><th>Role</th><th>Var</th><th>Count</th><th>BPM</th><th>Bars</th><th>Notes</th></tr></thead>
+        <tbody><tr><td><a href="midi/s01-dusk-common/pad-a.mid">s01.pad.a</a></td><td>pad-field</td><td>a</td><td>core</td><td>72</td><td>8</td><td>10</td></tr><tr><td><a href="midi/s01-dusk-common/pad-b.mid">s01.pad.b</a></td><td>pad-field</td><td>b</td><td>core</td><td>72</td><td>8</td><td>10</td></tr><tr><td><a href="midi/s01-dusk-common/motion-a.mid">s01.motion.a</a></td><td>inner-motion</td><td>a</td><td>reference</td><td>72</td><td>8</td><td>5</td></tr><tr><td><a href="midi/s01-dusk-common/motion-b.mid">s01.motion.b</a></td><td>inner-motion</td><td>b</td><td>reference</td><td>72</td><td>8</td><td>5</td></tr><tr><td><a href="midi/s02-open-fourths/pad-a.mid">s02.pad.a</a></td><td>pad-field</td><td>a</td><td>core</td><td>64</td><td>8</td><td>10</td></tr><tr><td><a href="midi/s02-open-fourths/pad-b.mid">s02.pad.b</a></td><td>pad-field</td><td>b</td><td>core</td><td>64</td><td>8</td><td>9</td></tr><tr><td><a href="midi/s02-open-fourths/motion-a.mid">s02.motion.a</a></td><td>inner-motion</td><td>a</td><td>reference</td><td>64</td><td>8</td><td>5</td></tr><tr><td><a href="midi/s02-open-fourths/motion-b.mid">s02.motion.b</a></td><td>inner-motion</td><td>b</td><td>reference</td><td>64</td><td>8</td><td>5</td></tr><tr><td><a href="midi/s03-suspended-hold/pad-a.mid">s03.pad.a</a></td><td>pad-field</td><td>a</td><td>core</td><td>80</td><td>8</td><td>9</td></tr><tr><td><a href="midi/s03-suspended-hold/pad-b.mid">s03.pad.b</a></td><td>pad-field</td><td>b</td><td>core</td><td>80</td><td>8</td><td>10</td></tr><tr><td><a href="midi/s03-suspended-hold/motion-a.mid">s03.motion.a</a></td><td>inner-motion</td><td>a</td><td>reference</td><td>80</td><td>8</td><td>5</td></tr><tr><td><a href="midi/s03-suspended-hold/motion-b.mid">s03.motion.b</a></td><td>inner-motion</td><td>b</td><td>reference</td><td>80</td><td>8</td><td>5</td></tr><tr><td><a href="midi/s04-low-bloom/pad-a.mid">s04.pad.a</a></td><td>pad-field</td><td>a</td><td>core</td><td>60</td><td>8</td><td>10</td></tr><tr><td><a href="midi/s04-low-bloom/pad-b.mid">s04.pad.b</a></td><td>pad-field</td><td>b</td><td>core</td><td>60</td><td>8</td><td>10</td></tr><tr><td><a href="midi/s04-low-bloom/motion-a.mid">s04.motion.a</a></td><td>inner-motion</td><td>a</td><td>reference</td><td>60</td><td>8</td><td>5</td></tr><tr><td><a href="midi/s04-low-bloom/motion-b.mid">s04.motion.b</a></td><td>inner-motion</td><td>b</td><td>reference</td><td>60</td><td>8</td><td>5</td></tr><tr><td><a href="midi/s05-high-window/pad-a.mid">s05.pad.a</a></td><td>pad-field</td><td>a</td><td>core</td><td>96</td><td>8</td><td>10</td></tr><tr><td><a href="midi/s05-high-window/pad-b.mid">s05.pad.b</a></td><td>pad-field</td><td>b</td><td>core</td><td>96</td><td>8</td><td>10</td></tr><tr><td><a href="midi/s05-high-window/motion-a.mid">s05.motion.a</a></td><td>inner-motion</td><td>a</td><td>reference</td><td>96</td><td>8</td><td>5</td></tr><tr><td><a href="midi/s05-high-window/motion-b.mid">s05.motion.b</a></td><td>inner-motion</td><td>b</td><td>reference</td><td>96</td><td>8</td><td>5</td></tr><tr><td><a href="midi/s06-pedal-drift/pad-a.mid">s06.pad.a</a></td><td>pad-field</td><td>a</td><td>core</td><td>68</td><td>8</td><td>10</td></tr><tr><td><a href="midi/s06-pedal-drift/pad-b.mid">s06.pad.b</a></td><td>pad-field</td><td>b</td><td>core</td><td>68</td><td>8</td><td>10</td></tr><tr><td><a href="midi/s06-pedal-drift/motion-a.mid">s06.motion.a</a></td><td>inner-motion</td><td>a</td><td>reference</td><td>68</td><td>8</td><td>5</td></tr><tr><td><a href="midi/s06-pedal-drift/motion-b.mid">s06.motion.b</a></td><td>inner-motion</td><td>b</td><td>reference</td><td>68</td><td>8</td><td>5</td></tr><tr><td><a href="midi/s07-two-note-space/pad-a.mid">s07.pad.a</a></td><td>pad-field</td><td>a</td><td>core</td><td>84</td><td>8</td><td>9</td></tr><tr><td><a href="midi/s07-two-note-space/pad-b.mid">s07.pad.b</a></td><td>pad-field</td><td>b</td><td>core</td><td>84</td><td>8</td><td>9</td></tr><tr><td><a href="midi/s07-two-note-space/motion-a.mid">s07.motion.a</a></td><td>inner-motion</td><td>a</td><td>reference</td><td>84</td><td>8</td><td>5</td></tr><tr><td><a href="midi/s07-two-note-space/motion-b.mid">s07.motion.b</a></td><td>inner-motion</td><td>b</td><td>reference</td><td>84</td><td>8</td><td>5</td></tr><tr><td><a href="midi/s08-cadence-breath/pad-a.mid">s08.pad.a</a></td><td>pad-field</td><td>a</td><td>core</td><td>104</td><td>8</td><td>10</td></tr><tr><td><a href="midi/s08-cadence-breath/pad-b.mid">s08.pad.b</a></td><td>pad-field</td><td>b</td><td>core</td><td>104</td><td>8</td><td>10</td></tr><tr><td><a href="midi/s08-cadence-breath/motion-a.mid">s08.motion.a</a></td><td>inner-motion</td><td>a</td><td>reference</td><td>104</td><td>8</td><td>5</td></tr><tr><td><a href="midi/s08-cadence-breath/motion-b.mid">s08.motion.b</a></td><td>inner-motion</td><td>b</td><td>reference</td><td>104</td><td>8</td><td>5</td></tr></tbody>
+      </table>
+    </div>
+    <section id="article">
+      <h2>Article draft</h2>
+      <p>DRAFT. This draft has not been posted to Medium.</p>
+      <p>Dreamy Analog Pads is a note-only MIDI study pack</p>
+      <p>Eight slow pad fields, held common tones, a separate inner line, and a simple-synth preview that is not a master</p>
+      <p>Tags: midi, composition, harmony, music-production, study-pack</p>
+      <p><a href="articles/medium-draft-Cursor.md">Markdown draft</a> · <a href="articles/medium-paste-Cursor.txt">plain text</a></p>
+    </section>
+    <section id="reading">
+      <p class="kicker">Recorded reading · study 01 variation A, all 8 bars</p>
+      <p>This MP3 is 26.70 seconds. preview, not a master. The film is 26.67 seconds and shows preview, not master.</p>
+      <p>The browser player below the field may ring for a fraction of a second after note-off. That ring is not in the MIDI and it is not in this MP3. The MP3 stops at the written note-off.</p>
+      <audio controls preload="metadata" src="preview/preview.mp3"></audio>
+      <p><a href="preview/preview.mp3">preview/preview.mp3</a> · <a href="preview/preview-manifest-Cursor.txt">preview manifest</a></p>
+      <video controls preload="metadata" poster="film/poster.jpg" width="1280" height="720">
+        <source src="film/preview.mp4" type="video/mp4">
+        <track kind="captions" src="film/preview.vtt" srclang="en" label="English" default>
+      </video>
+      <p><a href="film/preview.mp4">film/preview.mp4</a> · <a href="film/preview.vtt">captions</a></p>
+    </section>
+    <p>No program changes are encoded. A conventional GM player will normally use its default piano program for pitched channels unless configured otherwise; compatible GM channel 10 percussion is treated separately. Player behavior may vary.</p>
+    <p>No human listening audition was performed for this build.</p>
+    <p>The GitHub repository is https://github.com/mizcausevic-dev/dreamy-analog-pads and it is public. The catalog page is https://mizcausevic-dev.github.io/dreamy-analog-pads/ .</p>
+  </main>
+  <div class="transport">
+    <button type="button" id="play">Play pad</button>
+    <button type="button" id="motion-toggle" aria-pressed="true">Inner motion</button>
+    <span id="transport-label">Space plays. J and K change study.</span>
+  </div>
+  <script id="pack" type="application/json">{"bar_ticks": 3840, "studies": [{"id": "s01", "slug": "s01-dusk-common", "title": "Dusk Common", "bpm": 72, "bars": 8, "collection": "D major", "tonic": "D", "identity": "Variation A opens on D and holds A3 across the change into G, then leaves the last beats empty. Variation B starts a bar later, holds D4 across that change, and holds B3 and D3 across the return. The two files do not share attack time, pitch, or duration.", "limitations": "Play pad A with inner motion A, or pad B with inner motion B. They are alternatives. Release tails are not in the MIDI. Each note ends at note-off. A synth may ring after that. The ring is not in the file.", "voicing": "Three or four notes. The long tone sits inside the chord instead of doubling the top.", "layering": "One pad file. Inner motion is a separate monophonic reference, not a second pad.", "accent": "Velocities stay between 48 and 72. The held tone is the strongest note. There is no bar-by-bar climb.", "common_tone": "A3 is the held tone in variation A. Variation B holds D4 into G, then B3 and D3 into the return.", "departures": [], "harmonic_rhythm": "Four bars of D, two of G, two of D.", "changes": ["D", "G", "D"], "change_bars": [4, 2, 2], "phrases": [{"name": "D", "start_bar": 0, "bars": 4}, {"name": "G", "start_bar": 4, "bars": 2}, {"name": "Return", "start_bar": 6, "bars": 2}], "tempo_us": 833333, "spell": ["C", "C#", "D", "D#", "E", "F", "F#", "G", "G#", "A", "A#", "B"]}, {"id": "s02", "slug": "s02-open-fourths", "title": "Open Fourths", "bpm": 64, "bars": 8, "collection": "A natural minor", "tonic": "A", "identity": "Variation A stacks A and D, then keeps A3 while F and C enter. Variation B starts off the downbeat, holds D3 and later C4, and adds F4. The spacing is the fourth, not a close triad.", "limitations": "Play pad A with inner motion A, or pad B with inner motion B. They are alternatives. Release tails are not in the MIDI. Each note ends at note-off. A synth may ring after that. The ring is not in the file.", "voicing": "Fourths and open fifths. No three-note close-position triad.", "layering": "The fourths live in the pad file. Inner motion answers from above and is not part of the chord.", "accent": "Soft throughout. The entering upper fourth is quieter than the held tone.", "common_tone": "Variation A holds A3 into F. Variation B holds D3 and A3 into F, then C4 into the return.", "departures": [], "harmonic_rhythm": "Three bars of an A fourth, three of F, two of A.", "changes": ["Am4", "F", "Am"], "change_bars": [3, 3, 2], "phrases": [{"name": "Fourth", "start_bar": 0, "bars": 3}, {"name": "F", "start_bar": 3, "bars": 3}, {"name": "Am", "start_bar": 6, "bars": 2}], "tempo_us": 937500, "spell": ["C", "C#", "D", "D#", "E", "F", "F#", "G", "G#", "A", "A#", "B"]}, {"id": "s03", "slug": "s03-suspended-hold", "title": "Suspended Hold", "bpm": 80, "bars": 8, "collection": "F Lydian", "tonic": "F", "identity": "Variation A holds F3 and C4 while G gives way to A, so the suspension clears without a new attack on the common tones. Variation B delays the stack and holds A3 and C4 into C, then E4, G3, and D4 into the return. B natural is the Lydian fourth, not a departure.", "limitations": "Play pad A with inner motion A, or pad B with inner motion B. They are alternatives. Release tails are not in the MIDI. Each note ends at note-off. A synth may ring after that. The ring is not in the file.", "voicing": "F, G, C, then the A replaces G. The C chord keeps the same F and C underneath in variation A.", "layering": "The suspension and its resolution are one pad file. Inner motion is the reference line.", "accent": "The suspended G is quieter than the held F and C.", "common_tone": "Variation A holds F3 and C4 into C. Variation B holds A3 and C4 into C, then E4, G3, and D4 into the return.", "departures": [], "harmonic_rhythm": "Four bars of Fsus2, two of C, two of F.", "changes": ["Fsus2", "C", "F"], "change_bars": [4, 2, 2], "phrases": [{"name": "Sus", "start_bar": 0, "bars": 4}, {"name": "C", "start_bar": 4, "bars": 2}, {"name": "F", "start_bar": 6, "bars": 2}], "tempo_us": 750000, "spell": ["C", "Db", "D", "Eb", "E", "F", "Gb", "G", "Ab", "A", "Bb", "B"]}, {"id": "s04", "slug": "s04-low-bloom", "title": "Low Bloom", "bpm": 60, "bars": 8, "collection": "C Dorian", "tonic": "C", "identity": "Variation A keeps C3 under the whole Cm-to-Bb change and stays low. Variation B blooms upward to D4 and G4, holds G3, Bb3, and F3 across the seams, and flags one E3 at the end.", "limitations": "Play pad A with inner motion A, or pad B with inner motion B. They are alternatives. The E3 is one half note. It does not retune the study. Release tails are not in the MIDI. Each note ends at note-off. A synth may ring after that. The ring is not in the file.", "voicing": "Low shells around C3. Variation B opens the top without leaving the pad range.", "layering": "The bloom is still the pad. Inner motion stays a thin reference above it.", "accent": "The pedal is steadier than the moving voices. The flagged E3 is quiet.", "common_tone": "Variation A holds C3 into Bb. Variation B holds G3 and Bb3 into Bb, then F3 into the return.", "departures": ["Variation B ends with E3 (52). E natural is outside C Dorian and is flagged."], "harmonic_rhythm": "Four bars of Cm, two of Bb, two of Cm.", "changes": ["Cm", "Bb", "Cm"], "change_bars": [4, 2, 2], "phrases": [{"name": "Cm", "start_bar": 0, "bars": 4}, {"name": "Bb", "start_bar": 4, "bars": 2}, {"name": "Bloom", "start_bar": 6, "bars": 2}], "tempo_us": 1000000, "spell": ["C", "Db", "D", "Eb", "E", "F", "F#", "G", "Ab", "A", "Bb", "B"]}, {"id": "s05", "slug": "s05-high-window", "title": "High Window", "bpm": 96, "bars": 8, "collection": "E Mixolydian", "tonic": "E", "identity": "A gap is left between B3 and G#4. Variation A holds E3 into A. Variation B holds E3, G#4, and B4 into A, then D5 into the return. No pad note sits on MIDI 60 through 66.", "limitations": "Play pad A with inner motion A, or pad B with inner motion B. They are alternatives. Do not fill the gap with a chord tone from another study. Release tails are not in the MIDI. Each note ends at note-off. A synth may ring after that. The ring is not in the file.", "voicing": "A low pair and a high pair, with the middle register empty on purpose.", "layering": "The empty middle is part of the pad voicing. Inner motion may cross that register because it is a different file.", "accent": "The high window is a little louder than the low pair, still inside a soft range.", "common_tone": "Variation A holds E3 into A. Variation B holds E3, G#4, and B4 into A, then D5 into the return.", "departures": [], "harmonic_rhythm": "Two bars of E, four of A, two of E.", "changes": ["E", "A", "E"], "change_bars": [2, 4, 2], "phrases": [{"name": "E", "start_bar": 0, "bars": 2}, {"name": "Window", "start_bar": 2, "bars": 4}, {"name": "E", "start_bar": 6, "bars": 2}], "tempo_us": 625000, "spell": ["C", "C#", "D", "D#", "E", "F", "F#", "G", "G#", "A", "A#", "B"]}, {"id": "s06", "slug": "s06-pedal-drift", "title": "Pedal Drift", "bpm": 68, "bars": 8, "collection": "G natural minor", "tonic": "G", "identity": "Variation A is a G3 pedal under four chords. The upper notes move and the pedal does not re-attack. Variation B moves the pedal to D3 and lets G4 and Eb4 carry the later seams.", "limitations": "Play pad A with inner motion A, or pad B with inner motion B. They are alternatives. Release tails are not in the MIDI. Each note ends at note-off. A synth may ring after that. The ring is not in the file.", "voicing": "Pedal plus two moving notes. The pedal is not doubled at the octave.", "layering": "The pedal and the drift are one pad file. Inner motion is not the pedal.", "accent": "The pedal velocity stays put. The moving notes are slightly softer.", "common_tone": "Variation A holds G3 across every change. Variation B holds D3 across the first two changes, then G4 and Eb4.", "departures": [], "harmonic_rhythm": "Two bars each of Gm, Cm, Eb, and Gm.", "changes": ["Gm", "Cm", "Eb", "Gm"], "change_bars": [2, 2, 2, 2], "phrases": [{"name": "Gm", "start_bar": 0, "bars": 2}, {"name": "Cm", "start_bar": 2, "bars": 2}, {"name": "Eb", "start_bar": 4, "bars": 2}, {"name": "Gm", "start_bar": 6, "bars": 2}], "tempo_us": 882353, "spell": ["C", "Db", "D", "Eb", "E", "F", "Gb", "G", "Ab", "A", "Bb", "B"]}, {"id": "s07", "slug": "s07-two-note-space", "title": "Two-Note Space", "bpm": 84, "bars": 8, "collection": "Bb major", "tonic": "Bb", "identity": "Only two pad notes sound at once, a wide interval apart. Variation A leaves bar 1 empty and holds Bb3 into Eb. Variation B starts on an offbeat D and F, holds F3 and Bb3 into Eb, and flags Gb4.", "limitations": "Play pad A with inner motion A, or pad B with inner motion B. They are alternatives. The Gb4 is one half note. Release tails are not in the MIDI. Each note ends at note-off. A synth may ring after that. The ring is not in the file.", "voicing": "Two notes. Tenths and sevenths, not clusters.", "layering": "The pair is the whole pad. Inner motion is a third voice only because it is another file. Do not merge it into the pad if you need the two-note limit.", "accent": "Both notes of a pair are close in velocity. Neither one is a stab.", "common_tone": "Variation A holds Bb3 into Eb. Variation B holds F3 and Bb3 into Eb.", "departures": ["Variation B ends on Gb4 (66). Gb is outside Bb major and is flagged."], "harmonic_rhythm": "Three bars of Bb, three of Eb, two of F.", "changes": ["Bb", "Eb", "F"], "change_bars": [3, 3, 2], "phrases": [{"name": "Space", "start_bar": 0, "bars": 3}, {"name": "Eb", "start_bar": 3, "bars": 3}, {"name": "F", "start_bar": 6, "bars": 2}], "tempo_us": 714286, "spell": ["C", "Db", "D", "Eb", "E", "F", "Gb", "G", "Ab", "A", "Bb", "B"]}, {"id": "s08", "slug": "s08-cadence-breath", "title": "Cadence Breath", "bpm": 104, "bars": 8, "collection": "A major", "tonic": "A", "identity": "Variation A holds A3 from the D chord into A, then stops before the last bar. Variation B holds E4 across that same seam and also stops before the last bar. The silent bar is the phrase, not a short file.", "limitations": "Play pad A with inner motion A, or pad B with inner motion B. They are alternatives. Do not fill bar 8. Release tails are not in the MIDI. Each note ends at note-off. A synth may ring after that. The ring is not in the file.", "voicing": "D as D F# A, then A as A C# E, with one voice already sounding.", "layering": "The breath is empty in the pad and in the inner-motion file. It is not a hidden fade.", "accent": "The cadence notes are even. The silence is the ending.", "common_tone": "Variation A holds A3 into A. Variation B holds E4 into A. Nothing crosses into the silent bar.", "departures": [], "harmonic_rhythm": "Three bars of D, four of A, then one silent bar.", "changes": ["D", "A", "Breath"], "change_bars": [3, 4, 1], "phrases": [{"name": "D", "start_bar": 0, "bars": 3}, {"name": "A", "start_bar": 3, "bars": 4}, {"name": "Breath", "start_bar": 7, "bars": 1}], "tempo_us": 576923, "spell": ["C", "C#", "D", "D#", "E", "F", "F#", "G", "G#", "A", "A#", "B"]}], "parts": [{"id": "s01.pad.a", "study_id": "s01", "role": "pad-field", "variation": "a", "core": true, "path": "midi/s01-dusk-common/pad-a.mid"}, {"id": "s01.pad.b", "study_id": "s01", "role": "pad-field", "variation": "b", "core": true, "path": "midi/s01-dusk-common/pad-b.mid"}, {"id": "s01.motion.a", "study_id": "s01", "role": "inner-motion", "variation": "a", "core": false, "path": "midi/s01-dusk-common/motion-a.mid"}, {"id": "s01.motion.b", "study_id": "s01", "role": "inner-motion", "variation": "b", "core": false, "path": "midi/s01-dusk-common/motion-b.mid"}, {"id": "s02.pad.a", "study_id": "s02", "role": "pad-field", "variation": "a", "core": true, "path": "midi/s02-open-fourths/pad-a.mid"}, {"id": "s02.pad.b", "study_id": "s02", "role": "pad-field", "variation": "b", "core": true, "path": "midi/s02-open-fourths/pad-b.mid"}, {"id": "s02.motion.a", "study_id": "s02", "role": "inner-motion", "variation": "a", "core": false, "path": "midi/s02-open-fourths/motion-a.mid"}, {"id": "s02.motion.b", "study_id": "s02", "role": "inner-motion", "variation": "b", "core": false, "path": "midi/s02-open-fourths/motion-b.mid"}, {"id": "s03.pad.a", "study_id": "s03", "role": "pad-field", "variation": "a", "core": true, "path": "midi/s03-suspended-hold/pad-a.mid"}, {"id": "s03.pad.b", "study_id": "s03", "role": "pad-field", "variation": "b", "core": true, "path": "midi/s03-suspended-hold/pad-b.mid"}, {"id": "s03.motion.a", "study_id": "s03", "role": "inner-motion", "variation": "a", "core": false, "path": "midi/s03-suspended-hold/motion-a.mid"}, {"id": "s03.motion.b", "study_id": "s03", "role": "inner-motion", "variation": "b", "core": false, "path": "midi/s03-suspended-hold/motion-b.mid"}, {"id": "s04.pad.a", "study_id": "s04", "role": "pad-field", "variation": "a", "core": true, "path": "midi/s04-low-bloom/pad-a.mid"}, {"id": "s04.pad.b", "study_id": "s04", "role": "pad-field", "variation": "b", "core": true, "path": "midi/s04-low-bloom/pad-b.mid"}, {"id": "s04.motion.a", "study_id": "s04", "role": "inner-motion", "variation": "a", "core": false, "path": "midi/s04-low-bloom/motion-a.mid"}, {"id": "s04.motion.b", "study_id": "s04", "role": "inner-motion", "variation": "b", "core": false, "path": "midi/s04-low-bloom/motion-b.mid"}, {"id": "s05.pad.a", "study_id": "s05", "role": "pad-field", "variation": "a", "core": true, "path": "midi/s05-high-window/pad-a.mid"}, {"id": "s05.pad.b", "study_id": "s05", "role": "pad-field", "variation": "b", "core": true, "path": "midi/s05-high-window/pad-b.mid"}, {"id": "s05.motion.a", "study_id": "s05", "role": "inner-motion", "variation": "a", "core": false, "path": "midi/s05-high-window/motion-a.mid"}, {"id": "s05.motion.b", "study_id": "s05", "role": "inner-motion", "variation": "b", "core": false, "path": "midi/s05-high-window/motion-b.mid"}, {"id": "s06.pad.a", "study_id": "s06", "role": "pad-field", "variation": "a", "core": true, "path": "midi/s06-pedal-drift/pad-a.mid"}, {"id": "s06.pad.b", "study_id": "s06", "role": "pad-field", "variation": "b", "core": true, "path": "midi/s06-pedal-drift/pad-b.mid"}, {"id": "s06.motion.a", "study_id": "s06", "role": "inner-motion", "variation": "a", "core": false, "path": "midi/s06-pedal-drift/motion-a.mid"}, {"id": "s06.motion.b", "study_id": "s06", "role": "inner-motion", "variation": "b", "core": false, "path": "midi/s06-pedal-drift/motion-b.mid"}, {"id": "s07.pad.a", "study_id": "s07", "role": "pad-field", "variation": "a", "core": true, "path": "midi/s07-two-note-space/pad-a.mid"}, {"id": "s07.pad.b", "study_id": "s07", "role": "pad-field", "variation": "b", "core": true, "path": "midi/s07-two-note-space/pad-b.mid"}, {"id": "s07.motion.a", "study_id": "s07", "role": "inner-motion", "variation": "a", "core": false, "path": "midi/s07-two-note-space/motion-a.mid"}, {"id": "s07.motion.b", "study_id": "s07", "role": "inner-motion", "variation": "b", "core": false, "path": "midi/s07-two-note-space/motion-b.mid"}, {"id": "s08.pad.a", "study_id": "s08", "role": "pad-field", "variation": "a", "core": true, "path": "midi/s08-cadence-breath/pad-a.mid"}, {"id": "s08.pad.b", "study_id": "s08", "role": "pad-field", "variation": "b", "core": true, "path": "midi/s08-cadence-breath/pad-b.mid"}, {"id": "s08.motion.a", "study_id": "s08", "role": "inner-motion", "variation": "a", "core": false, "path": "midi/s08-cadence-breath/motion-a.mid"}, {"id": "s08.motion.b", "study_id": "s08", "role": "inner-motion", "variation": "b", "core": false, "path": "midi/s08-cadence-breath/motion-b.mid"}]}</script>
+  <script>
+    const pack = JSON.parse(document.getElementById("pack").textContent);
+    const rail = document.getElementById("rail");
+    const phrases = document.getElementById("phrases");
+    const scroller = document.getElementById("scroller");
+    const names = document.getElementById("names");
+    const field = document.getElementById("field");
+    const motionList = document.getElementById("motion-list");
+    const status = document.getElementById("status");
+    let studyId = "s01";
+    let variation = "a";
+    let padNotes = [];
+    let motionNotes = [];
+    let hearMotion = true;
+    let audio = null;
+    let playing = false;
+    let followId = 0;
+    let rollWidth = 960;
+    let origin = 0;
+
+    function study() {
+      return pack.studies.find((item) => item.id === studyId);
+    }
+    function pitchName(pitch) {
+      return study().spell[pitch % 12] + (Math.floor(pitch / 12) - 1);
+    }
+    function readVlq(view, offset) {
+      let value = 0;
+      let byte = 0;
+      do {
+        byte = view.getUint8(offset);
+        offset += 1;
+        value = (value << 7) | (byte & 0x7f);
+      } while (byte & 0x80);
+      return [value, offset];
+    }
+    function parseMidi(buffer) {
+      const view = new DataView(buffer);
+      if (String.fromCharCode(view.getUint8(0), view.getUint8(1), view.getUint8(2), view.getUint8(3)) !== "MThd" || view.getUint16(12) !== 960) {
+        throw new Error("unexpected MIDI header");
+      }
+      const tracks = view.getUint16(10);
+      let offset = 14;
+      const notes = [];
+      for (let track = 0; track < tracks; track += 1) {
+        if (String.fromCharCode(view.getUint8(offset), view.getUint8(offset + 1), view.getUint8(offset + 2), view.getUint8(offset + 3)) !== "MTrk") {
+          throw new Error("missing track");
+        }
+        const length = view.getUint32(offset + 4);
+        offset += 8;
+        const end = offset + length;
+        let tick = 0;
+        let running = 0;
+        const open = new Map();
+        while (offset < end) {
+          let delta;
+          [delta, offset] = readVlq(view, offset);
+          tick += delta;
+          let byte = view.getUint8(offset);
+          if (byte >= 0x80) {
+            running = byte;
+            offset += 1;
+          }
+          if (running === 0xff) {
+            offset += 1;
+            let metaLen;
+            [metaLen, offset] = readVlq(view, offset);
+            offset += metaLen;
+            continue;
+          }
+          const kind = running & 0xf0;
+          const data1 = byte < 0x80 ? byte : view.getUint8(offset);
+          if (byte >= 0x80) offset += 1;
+          let data2 = 0;
+          if (kind !== 0xc0 && kind !== 0xd0) {
+            data2 = view.getUint8(offset);
+            offset += 1;
+          }
+          const key = (running & 0x0f) + ":" + data1;
+          if (kind === 0x90 && data2 > 0) open.set(key, { tick: tick, velocity: data2 });
+          else if (kind === 0x80 || (kind === 0x90 && data2 === 0)) {
+            const started = open.get(key);
+            if (started) {
+              notes.push({ pitch: data1, start: started.tick, duration: tick - started.tick, velocity: started.velocity });
+              open.delete(key);
+            }
+          }
+        }
+      }
+      notes.sort((a, b) => a.start - b.start || a.pitch - b.pitch);
+      return notes;
+    }
+    function partPath(role) {
+      const found = pack.parts.find((part) => part.study_id === studyId && part.role === role && part.variation === variation);
+      if (!found) throw new Error("missing " + role);
+      return found.path;
+    }
+    function renderCopy() {
+      const item = study();
+      document.getElementById("title").textContent = item.title;
+      document.getElementById("identity").textContent = item.identity;
+      document.getElementById("facts").textContent = item.id + " · " + item.bpm + " BPM · " + item.bars + " bars · " + item.collection + " · tonic " + item.tonic;
+      document.getElementById("rhythm").textContent = item.harmonic_rhythm;
+      document.getElementById("common-copy").textContent = item.common_tone;
+      document.getElementById("voicing").textContent = item.voicing;
+      document.getElementById("layering").textContent = item.layering;
+      document.getElementById("accent-copy").textContent = item.accent;
+      document.getElementById("limits").textContent = item.limitations;
+      document.getElementById("departures").textContent = item.departures.length ? item.departures.join(" ") : "No pitch in this study is flagged as a departure.";
+      document.getElementById("transport-label").textContent = item.title + " " + variation.toUpperCase() + " · Space plays · J and K change study";
+      for (const button of rail.querySelectorAll("button")) button.setAttribute("aria-pressed", button.dataset.id === studyId ? "true" : "false");
+      document.getElementById("var-a").setAttribute("aria-pressed", variation === "a" ? "true" : "false");
+      document.getElementById("var-b").setAttribute("aria-pressed", variation === "b" ? "true" : "false");
+      phrases.innerHTML = "";
+      item.phrases.forEach((phrase) => {
+        const button = document.createElement("button");
+        button.type = "button";
+        button.textContent = phrase.name;
+        button.addEventListener("click", () => {
+          const x = (phrase.start_bar / item.bars) * rollWidth;
+          scroller.scrollTo({ left: Math.max(0, x - 12), behavior: "smooth" });
+        });
+        phrases.appendChild(button);
+      });
+    }
+    function boundaries(item) {
+      const marks = [];
+      let bar = 0;
+      item.change_bars.forEach((span, index) => {
+        if (index) marks.push(bar * pack.bar_ticks);
+        bar += span;
+      });
+      return marks;
+    }
+    function draw() {
+      const item = study();
+      const container = item.bars * pack.bar_ticks;
+      rollWidth = Math.max(760, item.bars * 150);
+      names.style.width = rollWidth + "px";
+      names.innerHTML = "";
+      let bar = 0;
+      item.changes.forEach((name, index) => {
+        const span = item.change_bars[index];
+        const mark = document.createElement("div");
+        mark.className = "change";
+        mark.textContent = name;
+        mark.style.left = (bar / item.bars) * rollWidth + "px";
+        names.appendChild(mark);
+        bar += span;
+      });
+      const pitches = [...new Set(padNotes.map((note) => note.pitch))].sort((a, b) => b - a);
+      const rowH = 36;
+      field.style.width = rollWidth + "px";
+      field.style.height = Math.max(160, pitches.length * rowH + 20) + "px";
+      field.innerHTML = "";
+      const seams = boundaries(item);
+      seams.forEach((tick) => {
+        const line = document.createElement("div");
+        line.className = "seam";
+        line.style.left = (tick / container) * rollWidth + "px";
+        field.appendChild(line);
+      });
+      const head = document.createElement("div");
+      head.id = "playhead";
+      head.className = "playhead";
+      head.style.left = "0px";
+      field.appendChild(head);
+      const heldNames = [];
+      padNotes.forEach((note) => {
+        const end = note.start + note.duration;
+        const held = seams.some((tick) => note.start < tick && end > tick);
+        if (held) heldNames.push(pitchName(note.pitch));
+        const row = pitches.indexOf(note.pitch);
+        const block = document.createElement("div");
+        block.className = "hold" + (held ? " common" : "");
+        block.textContent = pitchName(note.pitch) + (held ? " held" : "");
+        block.title = pitchName(note.pitch) + " · velocity " + note.velocity;
+        block.dataset.start = String(note.start);
+        block.dataset.end = String(end);
+        block.style.left = (note.start / container) * rollWidth + "px";
+        block.style.width = Math.max(36, (note.duration / container) * rollWidth - 6) + "px";
+        block.style.top = (8 + row * rowH) + "px";
+        block.style.height = (rowH - 8) + "px";
+        field.appendChild(block);
+      });
+      const unique = [...new Set(heldNames)];
+      document.getElementById("common").textContent = unique.length
+        ? "Common tones read from this MIDI file: " + unique.join(", ") + ". Each one is still sounding when a chord changes."
+        : "No note in this MIDI file is still sounding when a chord changes.";
+      motionList.innerHTML = "";
+      motionNotes.forEach((note) => {
+        const li = document.createElement("li");
+        const barNumber = Math.floor(note.start / pack.bar_ticks) + 1;
+        const beat = Math.floor((note.start % pack.bar_ticks) / 960) + 1;
+        const quarters = note.duration / 960;
+        li.textContent = "Bar " + barNumber + ", beat " + beat + ", " + pitchName(note.pitch) + ", " + quarters + (quarters === 1 ? " quarter" : " quarters");
+        motionList.appendChild(li);
+      });
+      status.textContent = padNotes.length + " pad notes from the MIDI. " + motionNotes.length + " inner-motion notes are listed apart from the field.";
+    }
+    async function loadStudy() {
+      stopPlayback();
+      renderCopy();
+      status.textContent = "Reading the MIDI.";
+      motionList.innerHTML = "";
+      try {
+        const padRes = await fetch(partPath("pad-field"));
+        const motionRes = await fetch(partPath("inner-motion"));
+        if (!padRes.ok || !motionRes.ok) throw new Error("MIDI request failed");
+        padNotes = parseMidi(await padRes.arrayBuffer());
+        motionNotes = parseMidi(await motionRes.arrayBuffer());
+        draw();
+      } catch (error) {
+        padNotes = [];
+        motionNotes = [];
+        status.textContent = "The MIDI did not load. " + error.message;
+      }
+    }
+    function freq(pitch) {
+      return 440 * Math.pow(2, (pitch - 69) / 12);
+    }
+    function schedule(ctx, note, whenOrigin, amount, slow) {
+      const item = study();
+      const seconds = (tick) => tick / 960 * item.tempo_us / 1000000;
+      const when = whenOrigin + seconds(note.start);
+      const duration = Math.max(0.05, seconds(note.duration));
+      const osc = ctx.createOscillator();
+      const gain = ctx.createGain();
+      osc.type = slow ? "triangle" : "sine";
+      osc.frequency.value = freq(note.pitch);
+      const level = amount * (note.velocity / 100);
+      const attack = slow ? Math.min(0.08, duration * 0.25) : Math.min(0.02, duration * 0.2);
+      gain.gain.setValueAtTime(0.0001, when);
+      gain.gain.exponentialRampToValueAtTime(Math.max(0.0002, level), when + attack);
+      gain.gain.exponentialRampToValueAtTime(0.0001, when + duration + 0.12);
+      osc.connect(gain);
+      gain.connect(ctx.destination);
+      osc.start(when);
+      osc.stop(when + duration + 0.13);
+    }
+    function stopPlayback() {
+      playing = false;
+      cancelAnimationFrame(followId);
+      if (audio) audio.close();
+      audio = null;
+      document.getElementById("play").textContent = "Play pad";
+    }
+    function playPad() {
+      if (!padNotes.length) return;
+      stopPlayback();
+      const ctx = new AudioContext();
+      audio = ctx;
+      playing = true;
+      document.getElementById("play").textContent = "Stop";
+      origin = ctx.currentTime + 0.05;
+      padNotes.forEach((note) => schedule(ctx, note, origin, 0.05, true));
+      if (hearMotion) motionNotes.forEach((note) => schedule(ctx, note, origin, 0.03, false));
+      const item = study();
+      const container = item.bars * 4 * 60 / item.bpm;
+      const follow = () => {
+        if (!playing || !audio) return;
+        const elapsed = audio.currentTime - origin;
+        const head = document.getElementById("playhead");
+        if (head) head.style.left = Math.max(0, Math.min(rollWidth, (elapsed / container) * rollWidth)) + "px";
+        if (elapsed < container + 0.2) followId = requestAnimationFrame(follow);
+        else stopPlayback();
+      };
+      follow();
+    }
+    function stepStudy(direction) {
+      const index = pack.studies.findIndex((item) => item.id === studyId);
+      studyId = pack.studies[(index + direction + pack.studies.length) % pack.studies.length].id;
+      loadStudy();
+    }
+    pack.studies.forEach((item) => {
+      const button = document.createElement("button");
+      button.type = "button";
+      button.dataset.id = item.id;
+      button.textContent = item.id.slice(1) + " " + item.title;
+      button.addEventListener("click", () => { studyId = item.id; loadStudy(); });
+      rail.appendChild(button);
+    });
+    document.getElementById("var-a").addEventListener("click", () => { variation = "a"; loadStudy(); });
+    document.getElementById("var-b").addEventListener("click", () => { variation = "b"; loadStudy(); });
+    document.getElementById("play").addEventListener("click", () => { if (playing) stopPlayback(); else playPad(); });
+    document.getElementById("motion-toggle").addEventListener("click", () => {
+      hearMotion = !hearMotion;
+      document.getElementById("motion-toggle").setAttribute("aria-pressed", hearMotion ? "true" : "false");
+    });
+    window.addEventListener("keydown", (event) => {
+      const tag = document.activeElement && document.activeElement.tagName;
+      if (tag === "INPUT" || tag === "TEXTAREA") return;
+      if (event.code === "Space") {
+        if (tag === "BUTTON" || tag === "A" || tag === "VIDEO" || tag === "AUDIO") return;
+        event.preventDefault();
+        if (playing) stopPlayback(); else playPad();
+      } else if (event.key === "j" || event.key === "J") stepStudy(-1);
+      else if (event.key === "k" || event.key === "K") stepStudy(1);
+    });
+    loadStudy();
+  </script>
+</body>
+</html>

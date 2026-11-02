@@ -1,0 +1,1014 @@
+{
+  "analog_note": "Analog-like describes the intended playback, a slow attack and a soft tone. It is not a MIDI property.",
+  "arrangement": {
+    "bpm": 72,
+    "container_ticks": 30720,
+    "description": "Study 01 variation A pad field with inner motion A. Inner motion is not inside the pad file.",
+    "format": 1,
+    "id": "arrangement-preview-s01a",
+    "meter": "4/4",
+    "path": "midi/arrangement.mid",
+    "tempo_us": 833333,
+    "tracks": [
+      {
+        "channel": null,
+        "name": "Conductor",
+        "source_part": null
+      },
+      {
+        "channel": 0,
+        "name": "Pad Field",
+        "source_part": "s01.pad.a"
+      },
+      {
+        "channel": 1,
+        "name": "Inner Motion",
+        "source_part": "s01.motion.a"
+      }
+    ]
+  },
+  "c4": 60,
+  "catalog_version": "1.0.0",
+  "container_choice": "Eight bars for every study. Sixteen and thirty-two bar studies were allowed and were not used, because 16 bars at 60 BPM last 64 seconds and 32 bars at 60 BPM last 128 seconds.",
+  "core_part_count": 16,
+  "core_role": "pad-field",
+  "generator_version": "1.0.0",
+  "meter": {
+    "bar_ticks": 3840,
+    "denominator": 4,
+    "numerator": 4
+  },
+  "microtiming": "offset is 0; performed_start = nominal_start",
+  "note_policy": "note-only MIDI. Analog-like attack, detune, and release tails are not encoded. The file ends at note-off.",
+  "pack_id": "dreamy-analog-pads",
+  "pack_name": "Dreamy Analog Pads",
+  "parts": [
+    {
+      "bpm": 72,
+      "channel": 0,
+      "container_bars": 8,
+      "core": true,
+      "id": "s01.pad.a",
+      "max_poly": 6,
+      "monophonic": false,
+      "notes": 10,
+      "path": "midi/s01-dusk-common/pad-a.mid",
+      "role": "pad-field",
+      "study_id": "s01",
+      "variation": "a"
+    },
+    {
+      "bpm": 72,
+      "channel": 0,
+      "container_bars": 8,
+      "core": true,
+      "id": "s01.pad.b",
+      "max_poly": 6,
+      "monophonic": false,
+      "notes": 10,
+      "path": "midi/s01-dusk-common/pad-b.mid",
+      "role": "pad-field",
+      "study_id": "s01",
+      "variation": "b"
+    },
+    {
+      "bpm": 72,
+      "channel": 1,
+      "container_bars": 8,
+      "core": false,
+      "id": "s01.motion.a",
+      "max_poly": 1,
+      "monophonic": true,
+      "notes": 5,
+      "path": "midi/s01-dusk-common/motion-a.mid",
+      "role": "inner-motion",
+      "study_id": "s01",
+      "variation": "a"
+    },
+    {
+      "bpm": 72,
+      "channel": 1,
+      "container_bars": 8,
+      "core": false,
+      "id": "s01.motion.b",
+      "max_poly": 1,
+      "monophonic": true,
+      "notes": 5,
+      "path": "midi/s01-dusk-common/motion-b.mid",
+      "role": "inner-motion",
+      "study_id": "s01",
+      "variation": "b"
+    },
+    {
+      "bpm": 64,
+      "channel": 0,
+      "container_bars": 8,
+      "core": true,
+      "id": "s02.pad.a",
+      "max_poly": 6,
+      "monophonic": false,
+      "notes": 10,
+      "path": "midi/s02-open-fourths/pad-a.mid",
+      "role": "pad-field",
+      "study_id": "s02",
+      "variation": "a"
+    },
+    {
+      "bpm": 64,
+      "channel": 0,
+      "container_bars": 8,
+      "core": true,
+      "id": "s02.pad.b",
+      "max_poly": 6,
+      "monophonic": false,
+      "notes": 9,
+      "path": "midi/s02-open-fourths/pad-b.mid",
+      "role": "pad-field",
+      "study_id": "s02",
+      "variation": "b"
+    },
+    {
+      "bpm": 64,
+      "channel": 1,
+      "container_bars": 8,
+      "core": false,
+      "id": "s02.motion.a",
+      "max_poly": 1,
+      "monophonic": true,
+      "notes": 5,
+      "path": "midi/s02-open-fourths/motion-a.mid",
+      "role": "inner-motion",
+      "study_id": "s02",
+      "variation": "a"
+    },
+    {
+      "bpm": 64,
+      "channel": 1,
+      "container_bars": 8,
+      "core": false,
+      "id": "s02.motion.b",
+      "max_poly": 1,
+      "monophonic": true,
+      "notes": 5,
+      "path": "midi/s02-open-fourths/motion-b.mid",
+      "role": "inner-motion",
+      "study_id": "s02",
+      "variation": "b"
+    },
+    {
+      "bpm": 80,
+      "channel": 0,
+      "container_bars": 8,
+      "core": true,
+      "id": "s03.pad.a",
+      "max_poly": 6,
+      "monophonic": false,
+      "notes": 9,
+      "path": "midi/s03-suspended-hold/pad-a.mid",
+      "role": "pad-field",
+      "study_id": "s03",
+      "variation": "a"
+    },
+    {
+      "bpm": 80,
+      "channel": 0,
+      "container_bars": 8,
+      "core": true,
+      "id": "s03.pad.b",
+      "max_poly": 6,
+      "monophonic": false,
+      "notes": 10,
+      "path": "midi/s03-suspended-hold/pad-b.mid",
+      "role": "pad-field",
+      "study_id": "s03",
+      "variation": "b"
+    },
+    {
+      "bpm": 80,
+      "channel": 1,
+      "container_bars": 8,
+      "core": false,
+      "id": "s03.motion.a",
+      "max_poly": 1,
+      "monophonic": true,
+      "notes": 5,
+      "path": "midi/s03-suspended-hold/motion-a.mid",
+      "role": "inner-motion",
+      "study_id": "s03",
+      "variation": "a"
+    },
+    {
+      "bpm": 80,
+      "channel": 1,
+      "container_bars": 8,
+      "core": false,
+      "id": "s03.motion.b",
+      "max_poly": 1,
+      "monophonic": true,
+      "notes": 5,
+      "path": "midi/s03-suspended-hold/motion-b.mid",
+      "role": "inner-motion",
+      "study_id": "s03",
+      "variation": "b"
+    },
+    {
+      "bpm": 60,
+      "channel": 0,
+      "container_bars": 8,
+      "core": true,
+      "id": "s04.pad.a",
+      "max_poly": 6,
+      "monophonic": false,
+      "notes": 10,
+      "path": "midi/s04-low-bloom/pad-a.mid",
+      "role": "pad-field",
+      "study_id": "s04",
+      "variation": "a"
+    },
+    {
+      "bpm": 60,
+      "channel": 0,
+      "container_bars": 8,
+      "core": true,
+      "id": "s04.pad.b",
+      "max_poly": 6,
+      "monophonic": false,
+      "notes": 10,
+      "path": "midi/s04-low-bloom/pad-b.mid",
+      "role": "pad-field",
+      "study_id": "s04",
+      "variation": "b"
+    },
+    {
+      "bpm": 60,
+      "channel": 1,
+      "container_bars": 8,
+      "core": false,
+      "id": "s04.motion.a",
+      "max_poly": 1,
+      "monophonic": true,
+      "notes": 5,
+      "path": "midi/s04-low-bloom/motion-a.mid",
+      "role": "inner-motion",
+      "study_id": "s04",
+      "variation": "a"
+    },
+    {
+      "bpm": 60,
+      "channel": 1,
+      "container_bars": 8,
+      "core": false,
+      "id": "s04.motion.b",
+      "max_poly": 1,
+      "monophonic": true,
+      "notes": 5,
+      "path": "midi/s04-low-bloom/motion-b.mid",
+      "role": "inner-motion",
+      "study_id": "s04",
+      "variation": "b"
+    },
+    {
+      "bpm": 96,
+      "channel": 0,
+      "container_bars": 8,
+      "core": true,
+      "id": "s05.pad.a",
+      "max_poly": 6,
+      "monophonic": false,
+      "notes": 10,
+      "path": "midi/s05-high-window/pad-a.mid",
+      "role": "pad-field",
+      "study_id": "s05",
+      "variation": "a"
+    },
+    {
+      "bpm": 96,
+      "channel": 0,
+      "container_bars": 8,
+      "core": true,
+      "id": "s05.pad.b",
+      "max_poly": 6,
+      "monophonic": false,
+      "notes": 10,
+      "path": "midi/s05-high-window/pad-b.mid",
+      "role": "pad-field",
+      "study_id": "s05",
+      "variation": "b"
+    },
+    {
+      "bpm": 96,
+      "channel": 1,
+      "container_bars": 8,
+      "core": false,
+      "id": "s05.motion.a",
+      "max_poly": 1,
+      "monophonic": true,
+      "notes": 5,
+      "path": "midi/s05-high-window/motion-a.mid",
+      "role": "inner-motion",
+      "study_id": "s05",
+      "variation": "a"
+    },
+    {
+      "bpm": 96,
+      "channel": 1,
+      "container_bars": 8,
+      "core": false,
+      "id": "s05.motion.b",
+      "max_poly": 1,
+      "monophonic": true,
+      "notes": 5,
+      "path": "midi/s05-high-window/motion-b.mid",
+      "role": "inner-motion",
+      "study_id": "s05",
+      "variation": "b"
+    },
+    {
+      "bpm": 68,
+      "channel": 0,
+      "container_bars": 8,
+      "core": true,
+      "id": "s06.pad.a",
+      "max_poly": 6,
+      "monophonic": false,
+      "notes": 10,
+      "path": "midi/s06-pedal-drift/pad-a.mid",
+      "role": "pad-field",
+      "study_id": "s06",
+      "variation": "a"
+    },
+    {
+      "bpm": 68,
+      "channel": 0,
+      "container_bars": 8,
+      "core": true,
+      "id": "s06.pad.b",
+      "max_poly": 6,
+      "monophonic": false,
+      "notes": 10,
+      "path": "midi/s06-pedal-drift/pad-b.mid",
+      "role": "pad-field",
+      "study_id": "s06",
+      "variation": "b"
+    },
+    {
+      "bpm": 68,
+      "channel": 1,
+      "container_bars": 8,
+      "core": false,
+      "id": "s06.motion.a",
+      "max_poly": 1,
+      "monophonic": true,
+      "notes": 5,
+      "path": "midi/s06-pedal-drift/motion-a.mid",
+      "role": "inner-motion",
+      "study_id": "s06",
+      "variation": "a"
+    },
+    {
+      "bpm": 68,
+      "channel": 1,
+      "container_bars": 8,
+      "core": false,
+      "id": "s06.motion.b",
+      "max_poly": 1,
+      "monophonic": true,
+      "notes": 5,
+      "path": "midi/s06-pedal-drift/motion-b.mid",
+      "role": "inner-motion",
+      "study_id": "s06",
+      "variation": "b"
+    },
+    {
+      "bpm": 84,
+      "channel": 0,
+      "container_bars": 8,
+      "core": true,
+      "id": "s07.pad.a",
+      "max_poly": 6,
+      "monophonic": false,
+      "notes": 9,
+      "path": "midi/s07-two-note-space/pad-a.mid",
+      "role": "pad-field",
+      "study_id": "s07",
+      "variation": "a"
+    },
+    {
+      "bpm": 84,
+      "channel": 0,
+      "container_bars": 8,
+      "core": true,
+      "id": "s07.pad.b",
+      "max_poly": 6,
+      "monophonic": false,
+      "notes": 9,
+      "path": "midi/s07-two-note-space/pad-b.mid",
+      "role": "pad-field",
+      "study_id": "s07",
+      "variation": "b"
+    },
+    {
+      "bpm": 84,
+      "channel": 1,
+      "container_bars": 8,
+      "core": false,
+      "id": "s07.motion.a",
+      "max_poly": 1,
+      "monophonic": true,
+      "notes": 5,
+      "path": "midi/s07-two-note-space/motion-a.mid",
+      "role": "inner-motion",
+      "study_id": "s07",
+      "variation": "a"
+    },
+    {
+      "bpm": 84,
+      "channel": 1,
+      "container_bars": 8,
+      "core": false,
+      "id": "s07.motion.b",
+      "max_poly": 1,
+      "monophonic": true,
+      "notes": 5,
+      "path": "midi/s07-two-note-space/motion-b.mid",
+      "role": "inner-motion",
+      "study_id": "s07",
+      "variation": "b"
+    },
+    {
+      "bpm": 104,
+      "channel": 0,
+      "container_bars": 8,
+      "core": true,
+      "id": "s08.pad.a",
+      "max_poly": 6,
+      "monophonic": false,
+      "notes": 10,
+      "path": "midi/s08-cadence-breath/pad-a.mid",
+      "role": "pad-field",
+      "study_id": "s08",
+      "variation": "a"
+    },
+    {
+      "bpm": 104,
+      "channel": 0,
+      "container_bars": 8,
+      "core": true,
+      "id": "s08.pad.b",
+      "max_poly": 6,
+      "monophonic": false,
+      "notes": 10,
+      "path": "midi/s08-cadence-breath/pad-b.mid",
+      "role": "pad-field",
+      "study_id": "s08",
+      "variation": "b"
+    },
+    {
+      "bpm": 104,
+      "channel": 1,
+      "container_bars": 8,
+      "core": false,
+      "id": "s08.motion.a",
+      "max_poly": 1,
+      "monophonic": true,
+      "notes": 5,
+      "path": "midi/s08-cadence-breath/motion-a.mid",
+      "role": "inner-motion",
+      "study_id": "s08",
+      "variation": "a"
+    },
+    {
+      "bpm": 104,
+      "channel": 1,
+      "container_bars": 8,
+      "core": false,
+      "id": "s08.motion.b",
+      "max_poly": 1,
+      "monophonic": true,
+      "notes": 5,
+      "path": "midi/s08-cadence-breath/motion-b.mid",
+      "role": "inner-motion",
+      "study_id": "s08",
+      "variation": "b"
+    }
+  ],
+  "pitched_range": [
+    48,
+    84
+  ],
+  "polyphony_cap": 6,
+  "polyphony_note": "The pad polyphony cap is 6, inside the 4 to 6 range used for these pads. These studies sound two to four notes at once. Inner motion is monophonic. Same-pitch overlap inside a part is illegal.",
+  "ppq": 960,
+  "preview_part_ids": [
+    "s01.pad.a",
+    "s01.motion.a"
+  ],
+  "range_statement": "Pad fields use MIDI 48 to 81. The polyphony cap is 6. These studies sound two to four notes at once. Inner motion is monophonic, MIDI 64 to 84, and is a reference part, not part of the core count. C4 is 60.",
+  "reference_part_count": 16,
+  "reference_role": "inner-motion",
+  "seed_meaning": "Seeds identify studies. Nothing is random.",
+  "stack_warning": "Use either the combined arrangement or the separate parts. Do not stack the part files on top of the combined file.",
+  "stochastic_draws": 0,
+  "studies": [
+    {
+      "accent": "Velocities stay between 48 and 72. The held tone is the strongest note. There is no bar-by-bar climb.",
+      "bar_ticks": 3840,
+      "bars": 8,
+      "bpm": 72,
+      "change_bars": [
+        4,
+        2,
+        2
+      ],
+      "changes": [
+        "D",
+        "G",
+        "D"
+      ],
+      "collection_name": "D major",
+      "common_tone": "A3 is the held tone in variation A. Variation B holds D4 into G, then B3 and D3 into the return.",
+      "container_seconds": 26.666656,
+      "departures": [],
+      "effective_bpm": 72.00002880001152,
+      "harmonic_rhythm": "Four bars of D, two of G, two of D.",
+      "id": "s01",
+      "identity": "Variation A opens on D and holds A3 across the change into G, then leaves the last beats empty. Variation B starts a bar later, holds D4 across that change, and holds B3 and D3 across the return. The two files do not share attack time, pitch, or duration.",
+      "layering": "One pad file. Inner motion is a separate monophonic reference, not a second pad.",
+      "limitations": "Play pad A with inner motion A, or pad B with inner motion B. They are alternatives. Release tails are not in the MIDI. Each note ends at note-off. A synth may ring after that. The ring is not in the file.",
+      "meter": "4/4",
+      "phrases": [
+        {
+          "bars": 4,
+          "name": "D",
+          "start_bar": 0
+        },
+        {
+          "bars": 2,
+          "name": "G",
+          "start_bar": 4
+        },
+        {
+          "bars": 2,
+          "name": "Return",
+          "start_bar": 6
+        }
+      ],
+      "pitch_classes": [
+        2,
+        4,
+        6,
+        7,
+        9,
+        11,
+        1
+      ],
+      "seed": 7201,
+      "slug": "s01-dusk-common",
+      "stochastic_draws": 0,
+      "tempo_us": 833333,
+      "title": "Dusk Common",
+      "tonal_reference": "D",
+      "tonic": "D",
+      "voicing": "Three or four notes. The long tone sits inside the chord instead of doubling the top."
+    },
+    {
+      "accent": "Soft throughout. The entering upper fourth is quieter than the held tone.",
+      "bar_ticks": 3840,
+      "bars": 8,
+      "bpm": 64,
+      "change_bars": [
+        3,
+        3,
+        2
+      ],
+      "changes": [
+        "Am4",
+        "F",
+        "Am"
+      ],
+      "collection_name": "A natural minor",
+      "common_tone": "Variation A holds A3 into F. Variation B holds D3 and A3 into F, then C4 into the return.",
+      "container_seconds": 30.0,
+      "departures": [],
+      "effective_bpm": 64.0,
+      "harmonic_rhythm": "Three bars of an A fourth, three of F, two of A.",
+      "id": "s02",
+      "identity": "Variation A stacks A and D, then keeps A3 while F and C enter. Variation B starts off the downbeat, holds D3 and later C4, and adds F4. The spacing is the fourth, not a close triad.",
+      "layering": "The fourths live in the pad file. Inner motion answers from above and is not part of the chord.",
+      "limitations": "Play pad A with inner motion A, or pad B with inner motion B. They are alternatives. Release tails are not in the MIDI. Each note ends at note-off. A synth may ring after that. The ring is not in the file.",
+      "meter": "4/4",
+      "phrases": [
+        {
+          "bars": 3,
+          "name": "Fourth",
+          "start_bar": 0
+        },
+        {
+          "bars": 3,
+          "name": "F",
+          "start_bar": 3
+        },
+        {
+          "bars": 2,
+          "name": "Am",
+          "start_bar": 6
+        }
+      ],
+      "pitch_classes": [
+        9,
+        11,
+        0,
+        2,
+        4,
+        5,
+        7
+      ],
+      "seed": 6402,
+      "slug": "s02-open-fourths",
+      "stochastic_draws": 0,
+      "tempo_us": 937500,
+      "title": "Open Fourths",
+      "tonal_reference": "A",
+      "tonic": "A",
+      "voicing": "Fourths and open fifths. No three-note close-position triad."
+    },
+    {
+      "accent": "The suspended G is quieter than the held F and C.",
+      "bar_ticks": 3840,
+      "bars": 8,
+      "bpm": 80,
+      "change_bars": [
+        4,
+        2,
+        2
+      ],
+      "changes": [
+        "Fsus2",
+        "C",
+        "F"
+      ],
+      "collection_name": "F Lydian",
+      "common_tone": "Variation A holds F3 and C4 into C. Variation B holds A3 and C4 into C, then E4, G3, and D4 into the return.",
+      "container_seconds": 24.0,
+      "departures": [],
+      "effective_bpm": 80.0,
+      "harmonic_rhythm": "Four bars of Fsus2, two of C, two of F.",
+      "id": "s03",
+      "identity": "Variation A holds F3 and C4 while G gives way to A, so the suspension clears without a new attack on the common tones. Variation B delays the stack and holds A3 and C4 into C, then E4, G3, and D4 into the return. B natural is the Lydian fourth, not a departure.",
+      "layering": "The suspension and its resolution are one pad file. Inner motion is the reference line.",
+      "limitations": "Play pad A with inner motion A, or pad B with inner motion B. They are alternatives. Release tails are not in the MIDI. Each note ends at note-off. A synth may ring after that. The ring is not in the file.",
+      "meter": "4/4",
+      "phrases": [
+        {
+          "bars": 4,
+          "name": "Sus",
+          "start_bar": 0
+        },
+        {
+          "bars": 2,
+          "name": "C",
+          "start_bar": 4
+        },
+        {
+          "bars": 2,
+          "name": "F",
+          "start_bar": 6
+        }
+      ],
+      "pitch_classes": [
+        5,
+        7,
+        9,
+        11,
+        0,
+        2,
+        4
+      ],
+      "seed": 8003,
+      "slug": "s03-suspended-hold",
+      "stochastic_draws": 0,
+      "tempo_us": 750000,
+      "title": "Suspended Hold",
+      "tonal_reference": "F",
+      "tonic": "F",
+      "voicing": "F, G, C, then the A replaces G. The C chord keeps the same F and C underneath in variation A."
+    },
+    {
+      "accent": "The pedal is steadier than the moving voices. The flagged E3 is quiet.",
+      "bar_ticks": 3840,
+      "bars": 8,
+      "bpm": 60,
+      "change_bars": [
+        4,
+        2,
+        2
+      ],
+      "changes": [
+        "Cm",
+        "Bb",
+        "Cm"
+      ],
+      "collection_name": "C Dorian",
+      "common_tone": "Variation A holds C3 into Bb. Variation B holds G3 and Bb3 into Bb, then F3 into the return.",
+      "container_seconds": 32.0,
+      "departures": [
+        "Variation B ends with E3 (52). E natural is outside C Dorian and is flagged."
+      ],
+      "effective_bpm": 60.0,
+      "harmonic_rhythm": "Four bars of Cm, two of Bb, two of Cm.",
+      "id": "s04",
+      "identity": "Variation A keeps C3 under the whole Cm-to-Bb change and stays low. Variation B blooms upward to D4 and G4, holds G3, Bb3, and F3 across the seams, and flags one E3 at the end.",
+      "layering": "The bloom is still the pad. Inner motion stays a thin reference above it.",
+      "limitations": "Play pad A with inner motion A, or pad B with inner motion B. They are alternatives. The E3 is one half note. It does not retune the study. Release tails are not in the MIDI. Each note ends at note-off. A synth may ring after that. The ring is not in the file.",
+      "meter": "4/4",
+      "phrases": [
+        {
+          "bars": 4,
+          "name": "Cm",
+          "start_bar": 0
+        },
+        {
+          "bars": 2,
+          "name": "Bb",
+          "start_bar": 4
+        },
+        {
+          "bars": 2,
+          "name": "Bloom",
+          "start_bar": 6
+        }
+      ],
+      "pitch_classes": [
+        0,
+        2,
+        3,
+        5,
+        7,
+        9,
+        10
+      ],
+      "seed": 6004,
+      "slug": "s04-low-bloom",
+      "stochastic_draws": 0,
+      "tempo_us": 1000000,
+      "title": "Low Bloom",
+      "tonal_reference": "C",
+      "tonic": "C",
+      "voicing": "Low shells around C3. Variation B opens the top without leaving the pad range."
+    },
+    {
+      "accent": "The high window is a little louder than the low pair, still inside a soft range.",
+      "bar_ticks": 3840,
+      "bars": 8,
+      "bpm": 96,
+      "change_bars": [
+        2,
+        4,
+        2
+      ],
+      "changes": [
+        "E",
+        "A",
+        "E"
+      ],
+      "collection_name": "E Mixolydian",
+      "common_tone": "Variation A holds E3 into A. Variation B holds E3, G#4, and B4 into A, then D5 into the return.",
+      "container_seconds": 20.0,
+      "departures": [],
+      "effective_bpm": 96.0,
+      "harmonic_rhythm": "Two bars of E, four of A, two of E.",
+      "id": "s05",
+      "identity": "A gap is left between B3 and G#4. Variation A holds E3 into A. Variation B holds E3, G#4, and B4 into A, then D5 into the return. No pad note sits on MIDI 60 through 66.",
+      "layering": "The empty middle is part of the pad voicing. Inner motion may cross that register because it is a different file.",
+      "limitations": "Play pad A with inner motion A, or pad B with inner motion B. They are alternatives. Do not fill the gap with a chord tone from another study. Release tails are not in the MIDI. Each note ends at note-off. A synth may ring after that. The ring is not in the file.",
+      "meter": "4/4",
+      "phrases": [
+        {
+          "bars": 2,
+          "name": "E",
+          "start_bar": 0
+        },
+        {
+          "bars": 4,
+          "name": "Window",
+          "start_bar": 2
+        },
+        {
+          "bars": 2,
+          "name": "E",
+          "start_bar": 6
+        }
+      ],
+      "pitch_classes": [
+        4,
+        6,
+        8,
+        9,
+        11,
+        1,
+        2
+      ],
+      "seed": 9605,
+      "slug": "s05-high-window",
+      "stochastic_draws": 0,
+      "tempo_us": 625000,
+      "title": "High Window",
+      "tonal_reference": "E",
+      "tonic": "E",
+      "voicing": "A low pair and a high pair, with the middle register empty on purpose."
+    },
+    {
+      "accent": "The pedal velocity stays put. The moving notes are slightly softer.",
+      "bar_ticks": 3840,
+      "bars": 8,
+      "bpm": 68,
+      "change_bars": [
+        2,
+        2,
+        2,
+        2
+      ],
+      "changes": [
+        "Gm",
+        "Cm",
+        "Eb",
+        "Gm"
+      ],
+      "collection_name": "G natural minor",
+      "common_tone": "Variation A holds G3 across every change. Variation B holds D3 across the first two changes, then G4 and Eb4.",
+      "container_seconds": 28.235296,
+      "departures": [],
+      "effective_bpm": 67.99999546666697,
+      "harmonic_rhythm": "Two bars each of Gm, Cm, Eb, and Gm.",
+      "id": "s06",
+      "identity": "Variation A is a G3 pedal under four chords. The upper notes move and the pedal does not re-attack. Variation B moves the pedal to D3 and lets G4 and Eb4 carry the later seams.",
+      "layering": "The pedal and the drift are one pad file. Inner motion is not the pedal.",
+      "limitations": "Play pad A with inner motion A, or pad B with inner motion B. They are alternatives. Release tails are not in the MIDI. Each note ends at note-off. A synth may ring after that. The ring is not in the file.",
+      "meter": "4/4",
+      "phrases": [
+        {
+          "bars": 2,
+          "name": "Gm",
+          "start_bar": 0
+        },
+        {
+          "bars": 2,
+          "name": "Cm",
+          "start_bar": 2
+        },
+        {
+          "bars": 2,
+          "name": "Eb",
+          "start_bar": 4
+        },
+        {
+          "bars": 2,
+          "name": "Gm",
+          "start_bar": 6
+        }
+      ],
+      "pitch_classes": [
+        7,
+        9,
+        10,
+        0,
+        2,
+        3,
+        5
+      ],
+      "seed": 6806,
+      "slug": "s06-pedal-drift",
+      "stochastic_draws": 0,
+      "tempo_us": 882353,
+      "title": "Pedal Drift",
+      "tonal_reference": "G",
+      "tonic": "G",
+      "voicing": "Pedal plus two moving notes. The pedal is not doubled at the octave."
+    },
+    {
+      "accent": "Both notes of a pair are close in velocity. Neither one is a stab.",
+      "bar_ticks": 3840,
+      "bars": 8,
+      "bpm": 84,
+      "change_bars": [
+        3,
+        3,
+        2
+      ],
+      "changes": [
+        "Bb",
+        "Eb",
+        "F"
+      ],
+      "collection_name": "Bb major",
+      "common_tone": "Variation A holds Bb3 into Eb. Variation B holds F3 and Bb3 into Eb.",
+      "container_seconds": 22.857152,
+      "departures": [
+        "Variation B ends on Gb4 (66). Gb is outside Bb major and is flagged."
+      ],
+      "effective_bpm": 83.99996640001343,
+      "harmonic_rhythm": "Three bars of Bb, three of Eb, two of F.",
+      "id": "s07",
+      "identity": "Only two pad notes sound at once, a wide interval apart. Variation A leaves bar 1 empty and holds Bb3 into Eb. Variation B starts on an offbeat D and F, holds F3 and Bb3 into Eb, and flags Gb4.",
+      "layering": "The pair is the whole pad. Inner motion is a third voice only because it is another file. Do not merge it into the pad if you need the two-note limit.",
+      "limitations": "Play pad A with inner motion A, or pad B with inner motion B. They are alternatives. The Gb4 is one half note. Release tails are not in the MIDI. Each note ends at note-off. A synth may ring after that. The ring is not in the file.",
+      "meter": "4/4",
+      "phrases": [
+        {
+          "bars": 3,
+          "name": "Space",
+          "start_bar": 0
+        },
+        {
+          "bars": 3,
+          "name": "Eb",
+          "start_bar": 3
+        },
+        {
+          "bars": 2,
+          "name": "F",
+          "start_bar": 6
+        }
+      ],
+      "pitch_classes": [
+        10,
+        0,
+        2,
+        3,
+        5,
+        7,
+        9
+      ],
+      "seed": 8407,
+      "slug": "s07-two-note-space",
+      "stochastic_draws": 0,
+      "tempo_us": 714286,
+      "title": "Two-Note Space",
+      "tonal_reference": "Bb",
+      "tonic": "Bb",
+      "voicing": "Two notes. Tenths and sevenths, not clusters."
+    },
+    {
+      "accent": "The cadence notes are even. The silence is the ending.",
+      "bar_ticks": 3840,
+      "bars": 8,
+      "bpm": 104,
+      "change_bars": [
+        3,
+        4,
+        1
+      ],
+      "changes": [
+        "D",
+        "A",
+        "Breath"
+      ],
+      "collection_name": "A major",
+      "common_tone": "Variation A holds A3 into A. Variation B holds E4 into A. Nothing crosses into the silent bar.",
+      "container_seconds": 18.461536,
+      "departures": [],
+      "effective_bpm": 104.00001386666851,
+      "harmonic_rhythm": "Three bars of D, four of A, then one silent bar.",
+      "id": "s08",
+      "identity": "Variation A holds A3 from the D chord into A, then stops before the last bar. Variation B holds E4 across that same seam and also stops before the last bar. The silent bar is the phrase, not a short file.",
+      "layering": "The breath is empty in the pad and in the inner-motion file. It is not a hidden fade.",
+      "limitations": "Play pad A with inner motion A, or pad B with inner motion B. They are alternatives. Do not fill bar 8. Release tails are not in the MIDI. Each note ends at note-off. A synth may ring after that. The ring is not in the file.",
+      "meter": "4/4",
+      "phrases": [
+        {
+          "bars": 3,
+          "name": "D",
+          "start_bar": 0
+        },
+        {
+          "bars": 4,
+          "name": "A",
+          "start_bar": 3
+        },
+        {
+          "bars": 1,
+          "name": "Breath",
+          "start_bar": 7
+        }
+      ],
+      "pitch_classes": [
+        9,
+        11,
+        1,
+        2,
+        4,
+        6,
+        8
+      ],
+      "seed": 10408,
+      "slug": "s08-cadence-breath",
+      "stochastic_draws": 0,
+      "tempo_us": 576923,
+      "title": "Cadence Breath",
+      "tonal_reference": "A",
+      "tonic": "A",
+      "voicing": "D as D F# A, then A as A C# E, with one voice already sounding."
+    }
+  ],
+  "tail_note": "Release tails are not in the MIDI. Each note ends at note-off. A synth may ring after that. The ring is not in the file."
+}

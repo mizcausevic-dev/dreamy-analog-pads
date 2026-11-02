@@ -1,0 +1,47 @@
+{
+  "commands": {
+    "card": [
+      "ffmpeg",
+      "-y",
+      "-i",
+      "/home/runner/work/dreamy-analog-pads/dreamy-analog-pads/art/hero.jpg",
+      "-vf",
+      "scale=1600:900",
+      "-q:v",
+      "3",
+      "/home/runner/work/dreamy-analog-pads/dreamy-analog-pads/social/x-Cursor/card.jpg"
+    ],
+    "portrait": [
+      "ffmpeg",
+      "-y",
+      "-i",
+      "/home/runner/work/dreamy-analog-pads/dreamy-analog-pads/art/square.jpg",
+      "-vf",
+      "crop=864:1080:108:0,scale=1080:1350",
+      "-q:v",
+      "3",
+      "/home/runner/work/dreamy-analog-pads/dreamy-analog-pads/social/instagram-Cursor/portrait.jpg"
+    ]
+  },
+  "hero": "JPEG of the 1280x720 wide dusk framing. The film plate is a JPEG of the same PPM, made before this final hero file was written.",
+  "instagram_portrait": "crop=864:1080:108:0 of the square still, then scale to 1080x1350.",
+  "instagram_square": "Byte copy of art/square.jpg.",
+  "instagram_square_sha256": "908a8422a23f4831395f3faf1c13741bc137cc6855b383ddfdce14127d803b08",
+  "painter": "tools/render_visual.py paint()",
+  "poster_command": [
+    "ffmpeg",
+    "-y",
+    "-i",
+    "/home/runner/work/dreamy-analog-pads/dreamy-analog-pads/art/hero.jpg",
+    "-vf",
+    "drawtext=textfile=/home/runner/work/dreamy-analog-pads/dreamy-analog-pads/build/onpicture.txt:fontfile=/usr/share/fonts/truetype/dejavu/DejaVuSans-Bold.ttf:fontsize=48:fontcolor=white:x=(w-text_w)/2:y=h-100:box=1:boxcolor=black@0.68:boxborderw=22",
+    "-frames:v",
+    "1",
+    "-q:v",
+    "3",
+    "/home/runner/work/dreamy-analog-pads/dreamy-analog-pads/film/poster.jpg"
+  ],
+  "square": "JPEG of the 1080x1080 square framing of the same painter. Not a scale of the hero. The portrait crop is 864 by 1080 starting 108 pixels from the left, then scaled to 1080 by 1350.",
+  "square_sha256": "908a8422a23f4831395f3faf1c13741bc137cc6855b383ddfdce14127d803b08",
+  "x_card": "scale the 1280x720 hero to 1600x900."
+}

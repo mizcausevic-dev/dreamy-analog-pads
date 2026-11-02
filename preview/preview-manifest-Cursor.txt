@@ -1,0 +1,61 @@
+preview, not a master
+{
+  "arrangement_path": "midi/arrangement.mid",
+  "arrangement_sha256": "8e3b9692d60b32a6d5a0bd7e3aeb57b5869a6a9dd887786109cd6b3fe14b607f",
+  "encode": "libmp3lame CBR 192 kbps, mono source",
+  "excerpt": {
+    "bars": "1-8, the full container",
+    "end_tick": 30720,
+    "sequencing": "pad field and inner motion, variation A, for the full 8 bars",
+    "start_tick": 0,
+    "study": "s01",
+    "transposition": "none"
+  },
+  "intermediate_wav": "build/preview.wav",
+  "intermediate_wav_note": "The WAV is gitignored build storage. The delivered preview is the MP3.",
+  "intermediate_wav_sha256": "a6304427647386a125421501734c8f7b7b3daea90b9fcd5072d3b079000ee33c",
+  "label": "preview, not a master",
+  "listening": "No human listening audition was performed for this build.",
+  "mapping": {
+    "inner-motion": "quiet sine, short attack, held only for the written duration",
+    "pad-field": "slow sine plus a quiet detuned sine and a softer triangle, held only for the written duration"
+  },
+  "mp3_encode_command": [
+    "ffmpeg",
+    "-y",
+    "-i",
+    "/home/runner/work/dreamy-analog-pads/dreamy-analog-pads/build/preview.wav",
+    "-codec:a",
+    "libmp3lame",
+    "-b:a",
+    "192k",
+    "/home/runner/work/dreamy-analog-pads/dreamy-analog-pads/preview/preview.mp3"
+  ],
+  "mp3_path": "preview/preview.mp3",
+  "mp3_sha256": "9d083eca8c375aeef6a5ac60d22bcd67ca3f02cd8ae68f5bc56651cb39a66722",
+  "pack_id": "dreamy-analog-pads",
+  "program_changes": "No program changes are encoded. A conventional GM player will normally use its default piano program for pitched channels unless configured otherwise; compatible GM channel 10 percussion is treated separately. Player behavior may vary.",
+  "renderer": "simple-synth-1.0.0",
+  "renderer_note": "These voices are preview mappings. They are not encoded in the MIDI. The renderer stops at note-off and does not add a release tail. Another synth may ring after note-off. That ring is not in the file.",
+  "rounding": "sample = floor(seconds * sample_rate + 0.5), computed from tick 0; intervals are not summed",
+  "sample_peak": 13979,
+  "sample_peak_dbfs": -7.399476601495171,
+  "sample_peak_note": "This is a sample peak of the integer mix after scaling. It is not a true-peak measurement and it is not a loudness figure.",
+  "score_seconds": 26.666656,
+  "score_sha256": "1ea372fbb9487f57fc1d34847a7b5d129b675df82fcf17e5941da1a84b5d8908",
+  "seconds_encoded": 26.697143,
+  "source_parts": [
+    {
+      "id": "s01.pad.a",
+      "path": "midi/s01-dusk-common/pad-a.mid",
+      "sha256": "4fb91014c55e7f05dc357d7265f70d89c745bd3fa22bd1305ec3d1a5001cf80e"
+    },
+    {
+      "id": "s01.motion.a",
+      "path": "midi/s01-dusk-common/motion-a.mid",
+      "sha256": "47321c0984c37f39f65c5f0bbbbf4ec80721ab9a17ef9cec29e472eabb5cbcd5"
+    }
+  ],
+  "tempo_authority": "encoded MIDI tempo",
+  "tempo_us": 833333
+}
